@@ -1,3 +1,13 @@
+### 서버실행방법
+
+```bash
+$ npm install
+$ cd server
+$ node server.js
+```
+
+그 후 postman을 이용해 crud 오퍼레이션을 테스트해보면됩니다.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
