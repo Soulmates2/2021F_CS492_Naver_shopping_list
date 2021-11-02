@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { ChannelsModule } from './channels/channels.module';
 import { ChannelmenusModule } from './channelmenus/channelmenus.module';
 import { MenusModule } from './menus/menus.module';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MenusModule } from './menus/menus.module';
     ChannelsModule,
     ChannelmenusModule,
     MenusModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
