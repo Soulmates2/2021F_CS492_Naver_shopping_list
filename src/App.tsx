@@ -11,7 +11,7 @@ function App() {
       <Header />
       <Switch>
         <Route path={['/']} component={HomePage} exact />
-        <Route path="/shopping" component={ShoppingPage} />
+        <Route path="/:channelID" component={ShoppingPage} />
         <Route
           render={() => {
             return (

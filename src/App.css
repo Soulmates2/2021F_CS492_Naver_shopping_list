@@ -24,10 +24,19 @@
   color: white;
 }
 
-.channelList {
-  font-size: calc(10px + 1vmin);
+.channel {
+  color: inherit;
+  text-decoration: inherit;
 }
 
+.channel:hover {
+  color: yellow;
+}
+
+/* Channel:link {
+  text-decoration: none;
+  color: white;
+} */
 .App-link {
   color: #61dafb;
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
+import Channel from './Channel';
 
 const ChannelList = () => {
   const [channelList, setChannelList] = useState([]);
@@ -10,12 +11,15 @@ const ChannelList = () => {
     })();
   }, []);
 
-  console.log(channelList);
   return (
     <div className="channelList">
       <ul>
         {channelList.map((channel) => {
-          return <li key={channel['id']}>{channel['name']}</li>;
+          return (
+            <li key={channel['_id']}>
+              <Channel id={channel['_id']} content={channel['name']} />
+            </li>
+          );
         })}
       </ul>
     </div>
