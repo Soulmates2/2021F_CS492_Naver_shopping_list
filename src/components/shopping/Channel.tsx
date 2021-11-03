@@ -5,6 +5,7 @@ interface ChannelProp {
   id: string;
   content: string;
 }
+
 const Channel = (props: ChannelProp) => {
   return (
     <div id={props.id}>
