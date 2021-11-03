@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 declare global {
   interface Window {
     naver: any;
@@ -8,38 +8,46 @@ const { naver } = window;
 
 function NaverIdLogin() {
   const Login = () => {
-    Naver();
-    GetProfile();
+    NaverLogin();
   };
   useEffect(Login, []);
 
-  function Naver() {
+  function NaverLogin() {
     const naverLogin = new naver.LoginWithNaverId({
+      //SETTING FOR REQUEST LOGIN
       clientId: "ngA3r6hcze4XQpin7Qrr",
-      callbackUrl: "http://localhost:3000/home",
+      callbackUrl: "http://localhost:3000/",
       callbackHandle: true,
       loginButton: {
         color: "green",
         type: 3,
         height: 60,
       },
-    });
-
+    }); // REQUEST
     naverLogin.init();
-    console.log("REQUEST NAVER LOGIN");
-  }
+    getUserProfile();
 
-  function GetProfile() {
-    window.location.href.includes("access_token") && getUser();
-
-    function getUser() {
-      const location = window.location.href.split("=")[1];
-      const token = location.split("&")[0];
-      const header = {
-        Authorizatin: token,
-      };
-
-      //   fetch();
+    function getUserProfile() {
+      // IF LOGGED-IN, GET EMAIL&ID
+      naverLogin.getLoginStatus((status: any) => {
+        if (status) {
+          const { id, name, email } = naverLogin.user;
+          if (name == undefined || email == undefined) {
+            alert(
+              "이름, 이메일 정보는 필수 동의입니다. 정보제공을 동의해주세요"
+            );
+            naverLogin.reprompt();
+          } else {
+            // LOGIN SUCCESS
+            const location = window.location.href.split("=")[1];
+            const token = location.split("&")[0];
+            console.log("NAVER LOGIN SUCCESS", naverLogin.user);
+            console.log("TOKEN", token);
+          }
+        } else {
+          console.log("NOT LOGIN YET");
+        }
+      });
     }
   }
 
