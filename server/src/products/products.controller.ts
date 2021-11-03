@@ -12,7 +12,6 @@ export class ProductsController {
     @Query('channelNo') channelNo: string,
     @Query('channelName') channelName: string,
   ) {
-    console.log('findall 호출', channelNo, channelName);
     return this.productsService.findAll(channelNo, channelName);
   }
 

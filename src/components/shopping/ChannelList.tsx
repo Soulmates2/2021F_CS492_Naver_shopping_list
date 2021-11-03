@@ -6,6 +6,8 @@ import { channelState } from './states/channel.state';
 
 const ChannelList = () => {
   const [channelList, setChannelList] = useRecoilState(channelState);
+
+  //API를 불러와 channelList에 DB channel collection을 세팅합니다.
   useEffect(() => {
     (async () => {
       const { data } = await getAllChannels();
@@ -13,6 +15,7 @@ const ChannelList = () => {
     })();
   }, [setChannelList]);
 
+  //채널리스트들로 채널컴포넌트들의 리스트를 만듭니다.
   return (
     <div className="channelList">
       <ul>

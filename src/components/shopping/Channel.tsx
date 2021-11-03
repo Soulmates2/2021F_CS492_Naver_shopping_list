@@ -6,6 +6,7 @@ interface ChannelProp {
   content: string;
 }
 
+//채널의 id와 content를 받아서 표시합니다.
 const Channel = (props: ChannelProp) => {
   return (
     <div id={props.id}>

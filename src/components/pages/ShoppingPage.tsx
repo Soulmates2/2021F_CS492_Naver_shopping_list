@@ -9,6 +9,7 @@ const ShoppingPage = (props: RouteComponentProps<{ channelID: string }>) => {
   const { channelID } = props.match.params;
   const [channelList] = useRecoilState(channelState);
 
+  //현재 channel을 전역 state(recoil사용)를 통해 받아옵니다.
   const channel = channelList.find((data) => {
     if (data._id === channelID) {
       return true;

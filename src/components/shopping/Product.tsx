@@ -1,7 +1,7 @@
 import React from 'react';
 
 //product info의 내용과 타입들입니다.
-
+//이 내용들로 info.???를 사용해 상품카드를 만들면 됩니다.
 // interface ProductInfoProps {
 //   channel: object;
 //   menus: Array<string>;
