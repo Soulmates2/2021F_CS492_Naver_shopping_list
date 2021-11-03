@@ -11,8 +11,10 @@ export class ProductsService {
     private readonly ProductModel: Model<ProductDocument>,
   ) {}
 
-  async findAll(): Promise<Product[]> {
-    return await this.ProductModel.find().exec();
+  async findAll(channelNo: string, channelName: string): Promise<Product[]> {
+    return await this.ProductModel.find({
+      channel: { channelNo: channelNo, channelName: channelName },
+    }).exec();
   }
 
   async findOne(id: number): Promise<Product> {

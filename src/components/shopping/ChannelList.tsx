@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
 import Channel from './Channel';
+import { useRecoilState } from 'recoil';
+import { channelState } from './states/channel.state';
 
 const ChannelList = () => {
-  const [channelList, setChannelList] = useState([]);
+  const [channelList, setChannelList] = useRecoilState(channelState);
   useEffect(() => {
     (async () => {
       const { data } = await getAllChannels();

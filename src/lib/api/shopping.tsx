@@ -12,8 +12,10 @@ export const getMenu = (menuId: string) => {
   return client.get('/api/menus/' + menuId);
 };
 
-export const getProducts = (channelId: string) => {
-  return client.get('/api/products?channel=' + channelId);
+export const getProducts = (channelId: string, channelName: string) => {
+  return client.get(
+    `/api/products?channelNo=${channelId}&channelName=${channelName}`,
+  );
 };
 
 export const getProduct = (productId: string) => {

@@ -12,7 +12,6 @@ const MenuList = (props: MenuListProps) => {
   useEffect(() => {
     (async () => {
       const { data } = await getChannelMenu(props.channelID);
-      console.log(data);
       setMenuList(data.menus);
     })();
   }, [props]);
