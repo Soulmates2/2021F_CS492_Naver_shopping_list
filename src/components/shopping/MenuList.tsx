@@ -18,6 +18,7 @@ const MenuList = (props: MenuListProps) => {
 
   return (
     <div className="menuList">
+      <h1>Menu List</h1>
       {MenuList ? (
         <ul>
           {MenuList.map((menuID) => {

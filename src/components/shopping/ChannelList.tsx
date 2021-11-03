@@ -11,7 +11,7 @@ const ChannelList = () => {
       const { data } = await getAllChannels();
       setChannelList(data);
     })();
-  }, []);
+  }, [setChannelList]);
 
   return (
     <div className="channelList">
