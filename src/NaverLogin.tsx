@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 declare global {
   interface Window {
     naver: any;
@@ -26,10 +27,11 @@ function NaverIdLogin() {
         type: 3,
         height: 60,
       },
-    }); // REQUEST
+    });
     naverLogin.init();
     getUserProfile();
 
+    // GET ID/NAME/EMAIL IF LOGIN SUCCESS
     function getUserProfile() {
       function getTokenByURL() {
         const location = window.location.href.split("=")[1];
@@ -41,7 +43,7 @@ function NaverIdLogin() {
         if (tokenChk) setToken(tokenChk.split("bearer.")[1]);
       }
 
-      // IF LOGGED-IN, GET EMAIL&ID
+      // IF LOGGED-IN, GET NAME&EMAIL
       naverLogin.getLoginStatus((status: any) => {
         if (status) {
           const { id, name, email } = naverLogin.user; // PROFILE
@@ -53,7 +55,6 @@ function NaverIdLogin() {
           } else {
             if (window.location.href.includes("access_token")) getTokenByURL();
             else getTokenByLocalStorage();
-
             console.log("NAVER LOGIN SUCCESS", naverLogin.user);
           }
         } else {
