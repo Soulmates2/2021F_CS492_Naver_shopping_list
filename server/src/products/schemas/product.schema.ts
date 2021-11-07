@@ -25,6 +25,12 @@ export class Product {
 
   @Prop({ type: Object })
   channel: any;
+
+  @Prop({ type: Object })
+  view: any;
+
+  @Prop({ type: Object })
+  dibs: any;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

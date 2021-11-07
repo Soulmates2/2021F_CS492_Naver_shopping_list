@@ -21,7 +21,27 @@ export class ProductsService {
     return await this.ProductModel.findById(id).exec();
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `PATCH request/미구현`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const befData = await this.ProductModel.findById(id).exec();
+    const time = updateProductDto.data.time;
+    befData.view.total += 1;
+    if (Object.keys(befData.view).includes(time)) {
+      befData.view[time] += 1;
+    } else {
+      befData.view[time] = 1;
+    }
+    const post = await this.ProductModel.findByIdAndUpdate(id, {
+      view: befData.view,
+    });
+    // console.log('시작');
+    // const products = await this.ProductModel.find().exec();
+    // for (const item of products) {
+    //   const post = await this.ProductModel.findByIdAndUpdate(item._id, {
+    //     view: { total: 1, '11/6/2021, 23:09': 1 },
+    //   });
+    // }
+    // console.log('완료');
+
+    return 'test';
   }
 }
