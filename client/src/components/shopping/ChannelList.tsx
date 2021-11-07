@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
 import Channel from './Channel';
-import { useRecoilState } from 'recoil';
-import { channelState } from './states/channel.state';
 
 const ChannelList = () => {
-  const [channelList, setChannelList] = useRecoilState(channelState);
+  const [channelList, setChannelList] = useState([]);
 
   //API를 불러와 channelList에 DB channel collection을 세팅합니다.
   useEffect(() => {

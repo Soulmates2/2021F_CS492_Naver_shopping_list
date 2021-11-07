@@ -10,7 +10,13 @@ interface ChannelProp {
 const Channel = (props: ChannelProp) => {
   return (
     <div id={props.id}>
-      <Link className="channel" to={props.id}>
+      <Link
+        className="channel"
+        to={{
+          pathname: `/channels/${props.id}`,
+          state: { name: props.content },
+        }}
+      >
         {props.content}
       </Link>
     </div>

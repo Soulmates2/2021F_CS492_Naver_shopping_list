@@ -4,6 +4,7 @@ import HomePage from './components/pages/HomePage';
 import './App.css';
 import Header from './components/Header';
 import ShoppingPage from './components/pages/ShoppingPage';
+import ProductPage from './components/pages/ProductPage';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <Header />
       <Switch>
         <Route path={['/']} component={HomePage} exact />
-        <Route path="/:channelID" component={ShoppingPage} />
+        <Route path="/channels/:channelID" component={ShoppingPage} />
+        <Route path="/products/:productID" component={ProductPage} />
         <Route
           render={() => {
             return (

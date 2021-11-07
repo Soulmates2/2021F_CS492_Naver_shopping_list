@@ -1,29 +1,36 @@
 import React from 'react';
 import MenuList from '../shopping/MenuList';
 import ProductList from '../shopping/ProductList';
+
 import { RouteComponentProps } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { channelState } from '../shopping/states/channel.state';
-import { Route, Link } from 'react-router-dom';
-import TestComp from './TestComp';
+import WrongAccess from './WrongAccess';
 
-const ShoppingPage = (props: RouteComponentProps<{ channelID: string }>) => {
-  const { channelID } = props.match.params;
-  const [channelList] = useRecoilState(channelState);
+interface SPMatchProps {
+  channelID: string;
+}
 
-  //현재 channel을 전역 state(recoil사용)를 통해 받아옵니다.
-  const channel = channelList.find((data) => {
-    if (data._id === channelID) {
-      return true;
-    }
-    return false;
-  }) || { _id: '0', name: '0' };
+interface SPLocProps {
+  name: string;
+}
 
+const ShoppingPage = (
+  props: RouteComponentProps<SPMatchProps, {}, SPLocProps>,
+) => {
+  const channelID = props.match.params.channelID;
   return (
     <div className="shoppingpage">
-      <h1>{channel.name}의 쇼핑페이지이다.</h1>
-      <MenuList channelID={channelID} />
-      <ProductList channelID={channelID} />
+      {props.location.state ? (
+        <>
+          <h1> {props.location.state.name}의 쇼핑페이지이다.</h1>
+          <MenuList channelID={channelID} />
+          <ProductList
+            channelID={channelID}
+            channelName={props.location.state.name}
+          />
+        </>
+      ) : (
+        <WrongAccess />
+      )}
     </div>
   );
 };

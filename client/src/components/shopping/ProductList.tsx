@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { getProducts } from '../../lib/api/shopping';
-import { useRecoilState } from 'recoil';
-import { channelState } from './states/channel.state';
 import Product from './Product';
 
 interface ProductProps {
   channelID: string;
+  channelName: string;
 }
 const ProductList = (props: ProductProps) => {
   const [ProductList, setProductList] = useState([]);
-  const [channelList] = useRecoilState(channelState);
-
-  //전역 state로 현재의 channel을 찾습니다. recoil을 사용하였습니다.
-  const channel = channelList.find((data) => {
-    if (data._id === props.channelID) {
-      return true;
-    }
-    return false;
-  }) || { _id: '0', name: '0' };
 
   //API와 연동하여 해당 channel의 모든 product들의 정보를 가져옵니다.
   useEffect(() => {
     (async () => {
-      const { data } = await getProducts(channel['_id'], channel['name']);
+      const { data } = await getProducts(props.channelID, props.channelName);
       setProductList(data);
     })();
   }, [props]);
@@ -35,7 +25,7 @@ const ProductList = (props: ProductProps) => {
         {ProductList.map((product) => {
           return (
             <li key={product['_id']}>
-              <Product channel={props.channelID} info={product} />
+              <Product info={product} />
             </li>
           );
         })}
