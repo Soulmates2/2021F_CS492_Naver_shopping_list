@@ -35,7 +35,7 @@ const ProductList = (props: ProductProps) => {
         {ProductList.map((product) => {
           return (
             <li key={product['_id']}>
-              <Product info={product} />
+              <Product channel={props.channelID} info={product} />
             </li>
           );
         })}

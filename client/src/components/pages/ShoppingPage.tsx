@@ -4,6 +4,8 @@ import ProductList from '../shopping/ProductList';
 import { RouteComponentProps } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { channelState } from '../shopping/states/channel.state';
+import { Route, Link } from 'react-router-dom';
+import TestComp from './TestComp';
 
 const ShoppingPage = (props: RouteComponentProps<{ channelID: string }>) => {
   const { channelID } = props.match.params;

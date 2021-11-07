@@ -33,14 +33,6 @@ export class ProductsService {
     const post = await this.ProductModel.findByIdAndUpdate(id, {
       view: befData.view,
     });
-    // console.log('시작');
-    // const products = await this.ProductModel.find().exec();
-    // for (const item of products) {
-    //   const post = await this.ProductModel.findByIdAndUpdate(item._id, {
-    //     view: { total: 1, '11/6/2021, 23:09': 1 },
-    //   });
-    // }
-    // console.log('완료');
 
     return 'test';
   }
