@@ -4,7 +4,7 @@ import HomePage from './components/pages/HomePage';
 import './App.css';
 import Header from './components/Header';
 import ShoppingPage from './components/pages/ShoppingPage';
-import ProductPage from './components/pages/ProductPage';
+import ChartPage from './components/pages/ChartPage';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <Route path={['/']} component={HomePage} exact />
         <Route path="/channels/:channelID" component={ShoppingPage} />
-        <Route path="/products/:productID" component={ProductPage} />
+        <Route path="/products/:productID" component={ChartPage} />
         <Route
           render={() => {
             return (
