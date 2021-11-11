@@ -1,6 +1,6 @@
 // import React, { useEffect, useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Route, Link } from 'react-router-dom';
 
 interface Window {
   [key: string]: any; // Add index signature
@@ -11,8 +11,6 @@ function NaverIdLoginCallback() {
   useEffect(naverLoginCallback, []);
 
   function naverLoginCallback() {
-    console.log('ENTER CALLBACK');
-
     const naverLogin = new naver.LoginWithNaverId({
       //SETTING FOR REQUEST LOGIN
       clientId: 'ngA3r6hcze4XQpin7Qrr',
@@ -43,16 +41,24 @@ function NaverIdLoginCallback() {
   }
 
   if (sessionStorage.getItem('name') !== undefined) {
-    console.log('SESSION EXIST');
-    // REDIRECT TO ./HOMEPAGE
+    // REDIRECT TO HOMEPAGE
+    return (
+      <div>
+        <Redirect to={{ pathname: `/home` }} />
+        <div id="naverIdLogin" onClick={NaverIdLoginCallback}>
+          네이버 로그인
+        </div>
+      </div>
+    );
   }
 
   return (
+    // REDIRECT TO LOGINPAGE
     <div>
+      <Redirect to={{ pathname: `/` }} />
       <div id="naverIdLogin" onClick={NaverIdLoginCallback}>
         네이버 로그인
       </div>
-      {/* REDIRECT TO ./ */}
     </div>
   );
 }
