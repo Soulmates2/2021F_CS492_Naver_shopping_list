@@ -13,7 +13,8 @@ interface ProductInfoProps {
   salePrice: number;
   soldout: boolean;
   _id: string;
-  view: viewType;
+  view: viewDibsType;
+  dibs: viewDibsType;
 }
 
 interface imageInfo {
@@ -24,7 +25,7 @@ interface imageInfo {
   height: number;
 }
 
-interface viewType {
+interface viewDibsType {
   total: number;
 }
 
@@ -47,6 +48,7 @@ const Product = (props: info) => {
         {info.name}
         <br />
         조회수:{info.view.total}
+        <br />찜 : {info.dibs.total}
       </Link>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
 import Channel from './Channel';
 import { Tabs } from 'antd';
