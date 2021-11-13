@@ -13,8 +13,10 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
+.header-title {
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #2db400;
   min-height: 10vh;
   display: flex;
   flex-direction: column;
@@ -24,19 +26,20 @@
   color: white;
 }
 
-.channel {
-  color: inherit;
-  text-decoration: inherit;
-}
-
-.channel:hover {
+.header-title:hover {
   color: yellow;
 }
 
-/* Channel:link {
-  text-decoration: none;
-  color: white;
-} */
+.channel {
+  color: black;
+}
+
+.channel:hover {
+  font-weight: bold;
+  color: black;
+  transition: 0.1s;
+}
+
 .App-link {
   color: #61dafb;
 }
