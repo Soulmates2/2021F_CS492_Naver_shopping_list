@@ -21,17 +21,16 @@ const ProductList = (props: ProductProps) => {
   return (
     <div className="productList">
       <h1>Product List</h1>
-      <ul>
-        {ProductList.map((product) => {
+        <div>
+          {ProductList.map((product) => {
           return (
-            <li key={product['_id']}>
-              <Product info={product} />
-            </li>
+            <Product info={product} key={product['_id']}/>
           );
         })}
-      </ul>
+        </div>
     </div>
   );
 };
 
 export default ProductList;
+
