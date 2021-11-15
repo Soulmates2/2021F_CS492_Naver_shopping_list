@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { viewPatchProduct } from '../../lib/api/shopping';
-import './ProductList.css';
+import './Product.css';
 
 
 //product info의 내용과 타입들입니다.
@@ -38,7 +38,6 @@ interface info {
 const Product = (props: info) => {
   const { info } = props;
   const viewUpdate = () => {
-    console.log(props);
     viewPatchProduct(info._id);
   };
   const n1 = info.salePrice;
