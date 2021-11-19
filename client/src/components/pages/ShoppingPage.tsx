@@ -16,18 +16,10 @@ const ShoppingPage = (
   props: RouteComponentProps<SPMatchProps, {}, SPLocProps>,
 ) => {
   const channelID = props.match.params.channelID;
-  const channelName = props.location.state.name;
   return (
     <div className="shoppingpage">
-      {props.location.state ? (
-        <>
-          <h1> {channelName}의 쇼핑페이지이다.</h1>
-          <MenuList channelID={channelID} />
-          <ProductList channelID={channelID} channelName={channelName} />
-        </>
-      ) : (
-        <WrongAccess />
-      )}
+      <MenuList channelID={channelID} />
+      <ProductList channelID={channelID} />
     </div>
   );
 };

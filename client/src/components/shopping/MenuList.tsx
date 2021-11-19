@@ -19,7 +19,6 @@ const MenuList = (props: MenuListProps) => {
     (async () => {
       const { data } = await getChannelMenu(props.channelID);
       setMenuList(data);
-      console.log(data);
     })();
   }, [props.channelID]);
 

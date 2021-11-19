@@ -14,7 +14,6 @@ const Channel = (props: ChannelProp) => {
         className="channel"
         to={{
           pathname: `/channels/${props.id}`,
-          state: { name: props.content },
         }}
       >
         {props.content}
