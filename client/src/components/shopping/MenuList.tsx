@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getChannelMenu } from '../../lib/api/shopping';
 import Menu from './Menu';
 interface MenuListProps {
@@ -10,9 +10,11 @@ const MenuList = (props: MenuListProps) => {
   //API와 연동하여 해당 채널의 모든 메뉴들을 menuList에 세팅합니다.
   //메뉴는 몇가지 정보가 더 있어서 수정예정입니다.
 
-  useMemo(async () => {
-    const { data } = await getChannelMenu(props.channelID);
-    setMenuList(data.menus);
+  useEffect(() => {
+    (async () => {
+      const { data } = await getChannelMenu(props.channelID);
+      setMenuList(data.menus);
+    })();
   }, [props.channelID]);
 
   //메뉴리스트들로 메뉴 컴포넌트의 리스트를 만듭니다.

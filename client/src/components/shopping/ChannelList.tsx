@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
 import Channel from './Channel';
 import { Tabs } from 'antd';
@@ -15,9 +15,12 @@ const ChannelList = () => {
   const cID = useLocation().pathname.split('/channels/')[1] || 'home';
   const [channelList, setChannelList] = useState<ChannelType[]>([]);
   //API를 불러와 channelList에 DB channel collection을 세팅합니다.
-  useMemo(async () => {
-    const { data } = await getAllChannels();
-    setChannelList(data);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await getAllChannels();
+      setChannelList(data);
+    })();
   }, [setChannelList]);
 
   //채널리스트들로 채널컴포넌트들의 리스트를 만듭니다.
