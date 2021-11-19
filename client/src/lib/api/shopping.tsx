@@ -10,11 +10,6 @@ export const getChannelMenu = (channelId: string) => {
   return client.get(`/api/channelmenus/${channelId}`);
 };
 
-//메뉴 id로 해당 메뉴를 가져옵니다.
-export const getMenu = (menuId: string) => {
-  return client.get(`/api/menus/${menuId}`);
-};
-
 //채널아이디와 채널네임이을 쿼리로 보내줘야 해당 채널의 프로덕트들을 가져올 수 있습니다.
 export const getProducts = (channelId: string, channelName: string) => {
   return client.get(`/api/products`, {

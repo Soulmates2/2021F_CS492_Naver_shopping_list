@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { getMenu } from '../../lib/api/shopping';
+import React from 'react';
 
 interface MenuProp {
-  menuID: string;
+  _id: string;
+  parentId: string;
+  name: string;
+  wholeIds: Array<string>;
 }
 
-const Menu = (props: MenuProp) => {
-  const [Menu, setMenu] = useState();
-  //API와 연동하여 메뉴의 정보를 가져옵니다.
-  //속도 및 메뉴정보와 관련하여 수정에정입니다.
-  useEffect(() => {
-    (async () => {
-      const { data } = await getMenu(props.menuID);
-      setMenu(data.name);
-    })();
-  }, [props]);
+interface MenuInfo {
+  info: MenuProp;
+}
 
-  return <div>{Menu}</div>;
+const Menu = (props: MenuInfo) => {
+  const { info } = props;
+  //속도 및 메뉴정보와 관련하여 수정에정입니다.
+
+  return <div>{info.name}</div>;
 };
 
 export default Menu;

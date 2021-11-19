@@ -14,13 +14,13 @@ const ProductList = (props: ProductProps) => {
     (async () => {
       const { data } = await getProducts(props.channelID, props.channelName);
       setProductList(data);
+      console.log(data);
     })();
   }, [props.channelID, props.channelName]);
 
   //프로덕트리스트로 프로덕트 컴포넌트의 리스트를 만듭니다.
   return (
     <div className="productList">
-      <h1>Product List</h1>
       <div>
         {ProductList.map((product) => {
           return <Product info={product} key={product['_id']} />;
