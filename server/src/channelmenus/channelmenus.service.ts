@@ -16,12 +16,14 @@ export class ChannelmenusService {
     return await this.ChannelMenuModel.find().exec();
   }
 
-  async findOne(id: number) {
+  async findParentMenu(id: number) {
     const menuIdList = await this.ChannelMenuModel.findById(id).exec();
     let menuList = [];
     for (const menuId of menuIdList.menus) {
       const menu = await this.menusService.findOne(+menuId);
-      menuList.push(menu);
+      if (menu.parentId === '0') {
+        menuList.push(menu);
+      }
     }
     return menuList;
   }

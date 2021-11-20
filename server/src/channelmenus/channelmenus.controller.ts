@@ -12,6 +12,6 @@ export class ChannelmenusController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.channelmenusService.findOne(+id);
+    return this.channelmenusService.findParentMenu(+id);
   }
 }

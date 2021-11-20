@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getChannelMenu } from '../../lib/api/shopping';
-import Menu from './Menu';
+import { getChannelParentMenu } from '../../lib/api/shopping';
+import { Link, Route } from 'react-router-dom';
+import ChildMenuList from './ChildMenuList';
 interface MenuListProps {
   channelID: string;
 }
@@ -11,13 +12,13 @@ interface MenuProp {
   wholeIds: Array<string>;
 }
 
-const MenuList = (props: MenuListProps) => {
+const ParentMenuList = (props: MenuListProps) => {
   const [MenuList, setMenuList] = useState<MenuProp[]>([]);
   //API와 연동하여 해당 채널의 모든 메뉴들을 menuList에 세팅합니다.
   //메뉴는 몇가지 정보가 더 있어서 수정예정입니다.
   useEffect(() => {
     (async () => {
-      const { data } = await getChannelMenu(props.channelID);
+      const { data } = await getChannelParentMenu(props.channelID);
       setMenuList(data);
     })();
   }, [props.channelID]);
@@ -31,7 +32,15 @@ const MenuList = (props: MenuListProps) => {
           {MenuList.map((menuInfo) => {
             return (
               <li key={menuInfo._id}>
-                <Menu info={menuInfo} />
+                <Link
+                  to={{
+                    pathname: `/channels/${props.channelID}/category/${menuInfo._id}`,
+                  }}
+                  replace
+                >
+                  {menuInfo.name}
+                  {menuInfo.wholeIds}
+                </Link>
               </li>
             );
           })}
@@ -39,8 +48,12 @@ const MenuList = (props: MenuListProps) => {
       ) : (
         <></>
       )}
+      <Route
+        path={`/channels/${props.channelID}/category/:menuId`}
+        component={ChildMenuList}
+      />
     </div>
   );
 };
 
-export default MenuList;
+export default ParentMenuList;
