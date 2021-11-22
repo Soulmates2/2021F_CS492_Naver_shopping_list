@@ -5,7 +5,6 @@ import "./ProductList.css";
 
 interface ProductProps {
   channelID: string;
-  channelName: string;
 }
 
 
@@ -29,7 +28,7 @@ const ProductList = (props: ProductProps) => {
         sethasMore(false);
     }
     setLoading(false);
-  },[props.channelID, props.channelName, page]);
+  },[props.channelID, page]);
 
   //channel이 바뀔때 productlist와 page를 initialize함
   useEffect(()=>{
