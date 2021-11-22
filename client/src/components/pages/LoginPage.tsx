@@ -7,9 +7,6 @@ interface Window {
 const naver = (window as Window)['naver'];
 
 function NaverIdLogin() {
-  // const [token, setToken] = useState('');
-  // const [_name, setName] = useState('');
-
   const Login = () => {
     NaverLogin();
   };
@@ -36,9 +33,6 @@ function NaverIdLogin() {
         if (name === undefined || email === undefined) {
           alert('이름, 이메일 정보는 필수 동의입니다. 정보제공을 동의해주세요');
           naverLogin.reprompt();
-        } else {
-          // LOGIN SUCCESS
-          console.log('LOGIN SUCCESS');
         }
       } // IF NOT STATUS, NOT LOGGED-IN YET
     });

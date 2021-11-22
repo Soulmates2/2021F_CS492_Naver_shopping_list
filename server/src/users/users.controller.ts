@@ -21,29 +21,12 @@ export class UsersController {
   }
 
   @Post()
-  // create(@Body() id: string) {
   create(@Body() userData: CreateUserDto) {
-
-    // console.log("CREATE - controller.ts");
-    Logger.log("CREATE - controller.ts");
-    // Logger.log(id);
-    Logger.log(userData);
-    Logger.log(userData._id);
-    userData.dibs = [];
-    Logger.log(userData.dibs);
-    Logger.log(userData.dibs.length);
-    // userData = CreateUserDto()
-
-    // const value = this.usersService.findOne(userData._id);
-    // Logger.log("VALUE");
-    // Logger.log(value);
-
     this.usersService.create(userData);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    Logger.log("Update - controller.ts");
     return this.usersService.update(id, updateUserDto);
   }
 }
