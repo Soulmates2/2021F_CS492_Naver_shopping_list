@@ -20,6 +20,14 @@ export class ProductsController {
     return this.productsService.findAll(channelNo);
   }
 
+  @Get(':page')
+  findByPage(
+    @Param('page') page:number,
+    @Query('channelNo') channelNo: string,
+  ) {
+    return this.productsService.findByPage(page, channelNo);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
