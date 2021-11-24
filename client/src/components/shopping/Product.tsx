@@ -49,13 +49,13 @@ const Product = (props: info) => {
         <Link to={{ pathname: `/products/${info._id}`, state: info }}>
         <div className="item_card" onClick={viewUpdate}>
           <div className="pic">
-            <img src={info.productImages[0].url} className="img" alt="no image found" />
+            <img src={info.productImages[0].url} className="img" alt="img of product"  />
           </div>
           <p className="i_price">{cn1}원</p>
           <p className="i_name">{info.name}</p>
           <span className="i_view">Views: {info.view.total}  | </span>
           <span className="i_like">Likes: {info.dibs.total}  </span>
-          <button className="button_like" aria-current="false">
+          <button className="button_like">
             <span>찜하기</span>
           </button>
         </div>

@@ -3,7 +3,6 @@
   width: 350px;
   height: 450px;
   display: inline-block;
-  /* flex-direction: 'row'; */
 }
 .item_card {
   box-sizing: border-box;
@@ -12,6 +11,7 @@
   border: solid #000000 2px;
   padding: 10px;
   list-style-type: none;
+  color: #000000;
 }
 .item_card:hover {
   border: solid #999999;
@@ -24,9 +24,9 @@
 
 .i_price {
   font-size: 20px;
-  color: #000000;
+  /* color: #000000; */
 }
-.i_name {
+/* .i_name {
   color: #000000;
 }
 .i_view {
@@ -34,7 +34,7 @@
 }
 .i_like {
   color: #000000;
-}
+} */
 .button_like {
   background-color: #ffffff;
 }
