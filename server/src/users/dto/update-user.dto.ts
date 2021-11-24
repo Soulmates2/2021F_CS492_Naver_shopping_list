@@ -1,4 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateUserDto } from './create-user.dto';
+import internal from 'stream';
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+interface dataType {
+    userId: string;
+    mode: number; // MODE (0: signup / 1: addDibs / 2: deleteDibs)
+    productId: string;
+}
+
+export class UpdateUserDto {
+    data: dataType
+}
