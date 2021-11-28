@@ -1,12 +1,25 @@
+.productList {
+  width: 90%;
+  /* min-width: 75%; */
+  /* align-items: center; */
+  /* margin: 0 auto; */
+}
 .products {
   padding-bottom: 3%;
-  padding-top: 0px;
-  width: 1500px;
-  margin-left: auto;
-  margin-right: auto;
+  /* padding-top: 0px; */
+  /* margin-bottom: 3%; */
+  margin-top: 0px;
+  width: 1400px;
+  /* padding-left: 100px; */
+  /* width: 100%; */
+  margin: 0 auto;
+  position: relative;
+  /* margin-left: auto;
+  margin-right: auto; */
+  /* align-items: center; */
 }
 .atEnd {
-  width: 99%;
+  width: 100%;
   height: auto;
   padding: 5px 0;
   font-size: 20px;
