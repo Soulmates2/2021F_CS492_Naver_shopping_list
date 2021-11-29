@@ -26,7 +26,7 @@ const ChilldMenuList = (props: RouteComponentProps<MenuMatchProp>) => {
   //속도 및 메뉴정보와 관련하여 수정에정입니다.
   return (
     <div className="childMenuList">
-      {childList ? (
+      {/* {childList ? (
         <>
           {childList.map((data) => {
             return <div>{data['name']}</div>;
@@ -34,7 +34,7 @@ const ChilldMenuList = (props: RouteComponentProps<MenuMatchProp>) => {
         </>
       ) : (
         <></>
-      )}
+      )} */}
     </div>
   );
 };
