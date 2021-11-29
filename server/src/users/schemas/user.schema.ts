@@ -15,12 +15,6 @@ export class User {
   _id: string;
 
   @Prop()
-  name: string;
-
-  @Prop()
-  email: string;
-
-  @Prop()
   dibs: Array<products>;
 }
 
