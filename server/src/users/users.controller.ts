@@ -3,7 +3,6 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Request } from 'express';
-import { Logger } from '@nestjs/common';
 
 
 @Controller('api/users')

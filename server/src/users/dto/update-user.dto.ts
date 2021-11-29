@@ -1,5 +1,4 @@
 import { PartialType } from '@nestjs/mapped-types';
-import internal from 'stream';
 
 interface dataType {
     userId: string;

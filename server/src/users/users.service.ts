@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { Logger, ConflictException } from '@nestjs/common';
+import { ConflictException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
