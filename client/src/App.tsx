@@ -13,9 +13,9 @@ function App() {
     <>
       <Header />
       <Switch>
-        <Route path="/" component={NaverIdLogin} exact />
         <Route path="/loginSuccess" component={NaverIdLoginCallback} />
         <Route path="/home" component={HomePage} />
+        <Route path="/" component={NaverIdLogin} exact />
         <Route path="/channels/:channelID" component={ShoppingPage} />
         <Route path="/products/:productID" component={ChartPage} />
         <Route
