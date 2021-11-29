@@ -16,11 +16,16 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  findAll(
+  findAll(@Query('channelNo') channelNo: string) {
+    return this.productsService.findAll(channelNo);
+  }
+
+  @Get(':page')
+  findByPage(
+    @Param('page') page:number,
     @Query('channelNo') channelNo: string,
-    @Query('channelName') channelName: string,
   ) {
-    return this.productsService.findAll(channelNo, channelName);
+    return this.productsService.findByPage(page, channelNo);
   }
 
   @Get(':id')

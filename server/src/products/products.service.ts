@@ -11,10 +11,19 @@ export class ProductsService {
     private readonly ProductModel: Model<ProductDocument>,
   ) {}
 
-  async findAll(channelNo: string, channelName: string): Promise<Product[]> {
+  //안써서 지워도 될듯
+  async findAll(channelNo: string): Promise<Product[]> {
     return await this.ProductModel.find({
-      channel: { channelNo: channelNo, channelName: channelName },
+      'channel.channelNo': channelNo,
     }).exec();
+  }
+
+  //8개씩 return함
+  async findByPage(page:number, channelNo: string): Promise<Product[]> {
+    if(page<1) return;
+    return await this.ProductModel.find({
+      'channel.channelNo': channelNo,
+    }).skip(8*(page-1)).limit(8).exec();
   }
 
   async findOne(id: number): Promise<Product> {

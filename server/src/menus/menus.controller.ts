@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { MenusService } from './menus.service';
 
 @Controller('api/menus')
@@ -8,6 +8,11 @@ export class MenusController {
   @Get()
   findAll() {
     return this.menusService.findAll();
+  }
+
+  @Get('/parent/:id')
+  findChild(@Param('id') id: string) {
+    return this.menusService.findChildmenus(id);
   }
 
   @Get(':id')

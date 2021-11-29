@@ -17,4 +17,8 @@ export class MenusService {
   async findOne(id: number) {
     return await this.MenuModel.findById(id).exec();
   }
+
+  async findChildmenus(pid: string) {
+    return await this.MenuModel.find({ parentId: pid }).exec();
+  }
 }
