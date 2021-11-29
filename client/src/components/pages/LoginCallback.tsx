@@ -29,7 +29,7 @@ function NaverIdLoginCallback() {
     naverLogin.getLoginStatus((status: any) => {
       if (status) {
         const { id, name, email } = naverLogin.user; // PROFILE
-        if (name === undefined || email === undefined) {
+        if (!name || !email) {
           alert('이름, 이메일 정보는 필수 동의입니다. 정보제공을 동의해주세요');
           naverLogin.reprompt();
         } else {
