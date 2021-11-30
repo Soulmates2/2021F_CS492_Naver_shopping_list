@@ -15,7 +15,6 @@ interface MenuProp {
 const ParentMenuList = (props: MenuListProps) => {
   const [MenuList, setMenuList] = useState<MenuProp[]>([]);
   //API와 연동하여 해당 채널의 모든 메뉴들을 menuList에 세팅합니다.
-  //메뉴는 몇가지 정보가 더 있어서 수정예정입니다.
   useEffect(() => {
     (async () => {
       const { data } = await getChannelParentMenu(props.channelID);
@@ -29,6 +28,16 @@ const ParentMenuList = (props: MenuListProps) => {
       <h1>Menu List</h1>
       {MenuList ? (
         <ul>
+          <li key="whole">
+            <Link
+              to={{
+                pathname: `/channels/${props.channelID}`,
+              }}
+              replace
+            >
+              전체
+            </Link>
+          </li>
           {MenuList.map((menuInfo) => {
             return (
               <li key={menuInfo._id}>

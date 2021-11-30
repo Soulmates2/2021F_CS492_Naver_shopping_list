@@ -22,7 +22,7 @@ export class ProductsController {
 
   @Get(':page')
   findByPage(
-    @Param('page') page:number,
+    @Param('page') page: number,
     @Query('channelNo') channelNo: string,
   ) {
     return this.productsService.findByPage(page, channelNo);

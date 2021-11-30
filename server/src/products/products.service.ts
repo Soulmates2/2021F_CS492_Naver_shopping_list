@@ -19,11 +19,14 @@ export class ProductsService {
   }
 
   //8개씩 return함
-  async findByPage(page:number, channelNo: string): Promise<Product[]> {
-    if(page<1) return;
+  async findByPage(page: number, channelNo: string): Promise<Product[]> {
+    if (page < 1) return;
     return await this.ProductModel.find({
       'channel.channelNo': channelNo,
-    }).skip(8*(page-1)).limit(8).exec();
+    })
+      .skip(8 * (page - 1))
+      .limit(8)
+      .exec();
   }
 
   async findOne(id: number): Promise<Product> {
