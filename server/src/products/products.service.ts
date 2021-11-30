@@ -33,16 +33,29 @@ export class ProductsService {
   async update(id: number, updateProductDto: UpdateProductDto) {
     const befData = await this.ProductModel.findById(id).exec();
     const time = updateProductDto.data.time;
-    befData.view.total += 1;
-    if (Object.keys(befData.view).includes(time)) {
-      befData.view[time] += 1;
-    } else {
-      befData.view[time] = 1;
+    if(updateProductDto.data.type == 'view'){
+      befData.view.total += 1;
+      if (Object.keys(befData.view).includes(time)) {
+        befData.view[time] += 1;
+      } else {
+        befData.view[time] = 1;
+      }
+      const post = await this.ProductModel.findByIdAndUpdate(id, {
+        view: befData.view,
+      });
     }
-    const post = await this.ProductModel.findByIdAndUpdate(id, {
-      view: befData.view,
-    });
-
+    else if(updateProductDto.data.type == 'dibs'){
+      befData.dibs.total += 1;
+      if (Object.keys(befData.dibs).includes(time)) {
+        befData.dibs[time] += 1;
+      } else {
+        befData.dibs[time] = 1;
+      }
+      const post = await this.ProductModel.findByIdAndUpdate(id, {
+        dibs: befData.dibs,
+      });
+    }
     return 'test';
   }
+
 }

@@ -23,13 +23,33 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     if ((await this.UserModel.findOne({ _id: createUserDto._id }))) {
-      throw new ConflictException();
+      // throw new ConflictException();
+      return;
     }
     const newUser = await new this.UserModel(createUserDto);
     return newUser.save();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    return 'test-user';
+    const user = await this.UserModel.findById(id).exec();
+    if(updateUserDto.data.mode == 2){
+      // if(user.dibs.length != 0){
+        const i = user.dibs.findIndex(element => element === updateUserDto.data.productId);
+        user.dibs.splice(i, 1);
+      // }
+    }else if(updateUserDto.data.mode == 1){
+      user.dibs.push(updateUserDto.data.productId);
+      console.log("addtoDib");
+    }
+
+    const post = await this.UserModel.findByIdAndUpdate(id, {
+      dibs: user.dibs,
+    });
+    return 'test';
+  }
+
+  async findAllDibs(id: string): Promise<String[]> {
+    const user = await this.UserModel.findById(id).exec();
+    return user.dibs;
   }
 }

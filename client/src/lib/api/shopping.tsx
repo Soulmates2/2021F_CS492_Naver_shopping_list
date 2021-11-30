@@ -14,13 +14,6 @@ export const getChildMenu = (menuId: string) => {
   return client.get(`/api/menus/parent/${menuId}`);
 };
 
-// //채널아이디와 채널네임이을 쿼리로 보내줘야 해당 채널의 프로덕트들을 가져올 수 있습니다.
-// export const getProducts = (channelId: string) => {
-//   return client.get(`/api/products`, {
-//     params: { channelNo: channelId },
-//   });
-// };
-
 //채널아이디와 채널네임이을 쿼리로 보내줘야 해당 채널의 프로덕트들을 가져올 수 있습니다.
 export const getProducts = (channelId: string, page:number) => {
   return client.get(`/api/products/${page}`, {
@@ -50,3 +43,20 @@ export const viewPatchProduct = (productId: string) => {
     data: { time: time, type: 'view' },
   });
 };
+
+export const dibsPatchProduct = (productId: string) => {
+  const date = new Date();
+  const time = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: false,
+  }).format(date);
+
+  return client.patch(`/api/products/${productId}`, {
+    data: { time: time, type: 'dibs' },
+  });
+};
+

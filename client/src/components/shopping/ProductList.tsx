@@ -2,11 +2,16 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { getProducts } from '../../lib/api/shopping';
 import Product, {ProductInfoProps} from './Product';
 import './ProductList.css';
+import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
+
 
 interface ProductProps {
   channelID: string;
 }
 
+interface dibProducts{
+  _id: string;
+}
 
 const ProductList = (props: ProductProps) => {
   const [page, setPage] = useState<number>(0);
@@ -14,6 +19,7 @@ const ProductList = (props: ProductProps) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [hasMore, sethasMore] = useState<boolean>(false);
   const loader = useRef<HTMLDivElement | null>(null);
+  const [dibsList, setDibsList] = useState<dibProducts[]>([]);
 
 
 //getProductList
@@ -69,8 +75,6 @@ const ProductList = (props: ProductProps) => {
   useEffect(()=>{
     async function sendQuery2(){
       if(hasMore  && page>1){
-      // if(page>1){
-      // if(page>1 && hasMore){
         console.log("second page: %d", page);
         setLoading(true);
         const res = await getProducts(props.channelID, page);

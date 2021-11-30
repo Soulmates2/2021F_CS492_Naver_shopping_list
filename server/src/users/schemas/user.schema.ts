@@ -15,7 +15,8 @@ export class User {
   _id: string;
 
   @Prop()
-  dibs: Array<products>;
+  // dibs: Array<products>;
+  dibs: Array<string>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

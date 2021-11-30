@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useCallback, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
-import { viewPatchProduct } from '../../lib/api/shopping';
+import { viewPatchProduct, dibsPatchProduct } from '../../lib/api/shopping';
+import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
 import './Product.css';
 
 
@@ -31,17 +32,62 @@ interface viewDibsType {
   total: number;
 }
 
+interface dibProducts{
+  _id: string;
+}
+
 export interface info {
   info: ProductInfoProps;
 }
 
 const Product = (props: info) => {
+  // const [dibsList, setDibsList] = useState<dibProducts[]>([]);
+  const [dibsList, setDibsList] = useState<String[]>([]);
+  const [isWishAdd, setIsWishAdd] = useState(false);
+  const [isInUserDib, setisInUserDib] = useState(false);
   const { info } = props;
   const viewUpdate = () => {
     viewPatchProduct(info._id);
   };
   const n1 = info.salePrice;
   const cn1 = n1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+  const wishAddHandler = (e:any) => {
+    setIsWishAdd(!isWishAdd);
+    e.preventDefault();
+  }
+
+  //product의 isWishAdd가 바뀔 때 즉 버튼이 눌러졌을때 불린다.
+  useEffect(()=>{
+    async function changeServerOfDibs(){
+      //찜 되었을때 user의 dibs에 찜한 아이템을 추가하고 
+      //product의 dibs에도 시간과함께 찜 정보를 추가한다. (Chart를 만들기 위함)
+      const userId = sessionStorage.getItem("id");
+      console.log("userId: " + userId);
+      if(isWishAdd){
+        console.log("addToDib");
+        userId !==null ? addUserDibs(userId, info._id) : console.log("no user");
+        dibsPatchProduct(info._id);
+      } 
+      //찜이 취소될때는 user dib에서 지우기만한다
+      else{
+        userId !==null ? deleteUserDibs(userId, info._id) : console.log("no user");
+      } 
+    }
+    changeServerOfDibs();
+  },[isWishAdd]);
+
+  useCallback(()=>{
+    async function checkProductDib(){
+      const userId = sessionStorage.getItem("id");
+      const res = userId !==null ? await getAllDibs(userId) : -1;
+      res!==-1 ? setDibsList(res.data): console.log("no user");
+      if(dibsList.includes(info._id)){
+        setisInUserDib(true);
+      }
+    }
+    checkProductDib();
+  },[isWishAdd]);
 
   return (
     
@@ -55,13 +101,13 @@ const Product = (props: info) => {
           <p className="i_name">{info.name}</p>
           <span className="i_view">Views: {info.view.total}  | </span>
           <span className="i_like">Likes: {info.dibs.total}  </span>
-          <button className="button_like">
-            <span>찜하기</span>
+          <button className="button_like" onClick={wishAddHandler}>
+             {/* {isInUserDib ? <span className="y">찜하기</span>: <span className="n">찜하기</span>} */}
+             <span>찜하기</span>
           </button>
         </div>
         </Link>
       </div>
-    
   );
 };
 

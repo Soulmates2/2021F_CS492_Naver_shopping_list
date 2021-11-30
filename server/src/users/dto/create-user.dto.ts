@@ -11,5 +11,6 @@ export class CreateUserDto {
     readonly _id: string;
 
     @ValidateNested({ each: true })
-    dibs: products[];
+   // dibs: products[];
+   dibs: string[];
 }
