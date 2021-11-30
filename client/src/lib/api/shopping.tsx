@@ -50,3 +50,9 @@ export const viewPatchProduct = (productId: string) => {
     data: { time: time, type: 'view' },
   });
 };
+
+
+//차트페이지에서 상품의 시간별 조회 정보를 가져옵니다.
+
+
+//차트페이지에서 상품의 시간별 찜 정보를 가져옵니다.
