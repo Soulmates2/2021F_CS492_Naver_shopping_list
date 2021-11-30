@@ -18,6 +18,12 @@ export class ProductsService {
     }).exec();
   }
 
+  async getDibs(id: number): Promise<any> {
+    const befData = await this.ProductModel.findById(id).exec();
+    console.log("current dibs: %d", befData.dibs.total);
+    return befData.dibs.total;
+  }
+
   //8개씩 return함
   async findByPage(page:number, channelNo: string): Promise<Product[]> {
     if(page<1) return;
@@ -45,7 +51,7 @@ export class ProductsService {
       });
     }
     else if(updateProductDto.data.type == 'dibs'){
-      console.log("add to product data also");
+      // console.log("add to product data also");
       befData.dibs.total += 1;
       if (Object.keys(befData.dibs).includes(time)) {
         befData.dibs[time] += 1;
@@ -55,6 +61,7 @@ export class ProductsService {
       const post = await this.ProductModel.findByIdAndUpdate(id, {
         dibs: befData.dibs,
       });
+      console.log("dibs update completed");
     }
     return 'test';
   }

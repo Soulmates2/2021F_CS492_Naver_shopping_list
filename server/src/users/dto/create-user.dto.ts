@@ -6,7 +6,6 @@ export class Products {
     constructor(id){
         this._id = id;
     }
-
 }
 
 export class CreateUserDto {

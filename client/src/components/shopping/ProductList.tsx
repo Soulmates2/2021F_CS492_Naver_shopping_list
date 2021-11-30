@@ -20,22 +20,6 @@ const ProductList = (props: ProductProps) => {
   const [hasMore, sethasMore] = useState<boolean>(false);
   const loader = useRef<HTMLDivElement | null>(null);
   const [dibsList, setDibsList] = useState<dibProducts[]>([]);
-  
-
-  //function을 하나 만들어서 
-  // const updateDibs = () => {
-  //   setProductList()
-  // }
-  //   setLoading(true);
-  //   const res = await getProducts(props.channelID, page);
-  //   setProductList((prev) => [...prev, ...res.data]);
-  //   if(res.data.length > 0){
-  //       sethasMore(true);
-  //   } else{
-  //       sethasMore(false);
-  //   }
-  //   setLoading(false);
-  // },[props.channelID, page]);
 
 
 //getProductList
@@ -63,7 +47,6 @@ const ProductList = (props: ProductProps) => {
   // useEffect(()=>{
   //     sendQuery();
   // }, [props.channelID, page]);
-
 
 
   useEffect(()=>{
