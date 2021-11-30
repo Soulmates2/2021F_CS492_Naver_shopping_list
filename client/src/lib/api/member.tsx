@@ -9,7 +9,7 @@ export const getAllDibs = (userId: string) => {
 
 // 유저가 DB에 없으면 회원가입, 있으면 그대로 진행
 export const loginOrSignup = (userId: string) => {
-    return client.post('/api/users', { _id: 'test', dibs: [] as string[] });
+    return client.post('/api/users', { _id: userId, dibs: [] as string[] });
 }
 
 // 찜한 상품 추가

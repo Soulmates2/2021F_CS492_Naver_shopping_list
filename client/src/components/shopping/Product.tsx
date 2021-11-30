@@ -63,10 +63,11 @@ const Product = (props: info) => {
       //찜 되었을때 user의 dibs에 찜한 아이템을 추가하고 
       //product의 dibs에도 시간과함께 찜 정보를 추가한다. (Chart를 만들기 위함)
       const userId = sessionStorage.getItem("id");
-      console.log("userId: " + userId);
+      console.log("userId: %s", userId);
       if(isWishAdd){
         console.log("addToDib");
         userId !==null ? addUserDibs(userId, info._id) : console.log("no user");
+        console.log("added successfully");
         dibsPatchProduct(info._id);
       } 
       //찜이 취소될때는 user dib에서 지우기만한다

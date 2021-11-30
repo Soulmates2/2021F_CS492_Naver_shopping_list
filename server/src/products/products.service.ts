@@ -45,6 +45,7 @@ export class ProductsService {
       });
     }
     else if(updateProductDto.data.type == 'dibs'){
+      console.log("add to product data also");
       befData.dibs.total += 1;
       if (Object.keys(befData.dibs).includes(time)) {
         befData.dibs[time] += 1;

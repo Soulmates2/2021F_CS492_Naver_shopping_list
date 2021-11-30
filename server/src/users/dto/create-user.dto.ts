@@ -10,7 +10,7 @@ export class CreateUserDto {
     @IsNotEmpty()
     readonly _id: string;
 
-    @ValidateNested({ each: true })
+    // @ValidateNested({ each: true })
    // dibs: products[];
    dibs: string[];
 }
