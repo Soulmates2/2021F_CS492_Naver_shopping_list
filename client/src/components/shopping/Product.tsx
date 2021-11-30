@@ -41,8 +41,8 @@ export interface info {
 }
 
 const Product = (props: info) => {
-  // const [dibsList, setDibsList] = useState<dibProducts[]>([]);
-  const [dibsList, setDibsList] = useState<String[]>([]);
+  const [dibsList, setDibsList] = useState<dibProducts[]>([]);
+  // const [dibsList, setDibsList] = useState<String[]>([]);
   const [isWishAdd, setIsWishAdd] = useState(false);
   const [isInUserDib, setisInUserDib] = useState(false);
   const { info } = props;
@@ -54,7 +54,9 @@ const Product = (props: info) => {
 
   const wishAddHandler = (e:any) => {
     setIsWishAdd(!isWishAdd);
+    //찜 버튼이 눌렸을땐 product page로 넘어가지 않고 view 횟수를 더하지도 않는다.
     e.preventDefault();
+    e.stopPropagation();
   }
 
   //product의 isWishAdd가 바뀔 때 즉 버튼이 눌러졌을때 불린다.
@@ -83,7 +85,9 @@ const Product = (props: info) => {
       const userId = sessionStorage.getItem("id");
       const res = userId !==null ? await getAllDibs(userId) : -1;
       res!==-1 ? setDibsList(res.data): console.log("no user");
-      if(dibsList.includes(info._id)){
+
+      if(dibsList.some(i => i._id.includes(info._id))){
+      // if(dibsList.includes(info._id)){
         setisInUserDib(true);
       }
     }
@@ -91,7 +95,6 @@ const Product = (props: info) => {
   },[isWishAdd]);
 
   return (
-    
       <div className="product" >
         <Link to={{ pathname: `/products/${info._id}`, state: info }}>
         <div className="item_card" onClick={viewUpdate}>

@@ -63,12 +63,12 @@
 .button_like {
   background-color: #ffffff;
 }
-/* .y {
+.button_like:hover {
+  color: #ffc0cb;
+}
+.y {
   color: #ffc0cb;
 }
 .n {
   color: #000000;
-} */
-.button_like:hover {
-  color: #ffc0cb;
 }
