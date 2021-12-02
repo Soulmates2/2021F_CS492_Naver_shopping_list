@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import OptionList from '../chart/OptionList';
 import WrongAccess from './WrongAccess';
@@ -19,59 +19,116 @@ interface ProductInfoProps {
 }
 
 
-var chart = bb.generate({
-  "data": {
-    "type": line(),
-    "x": "x",
-    "xFormat":'%Y-%m-%d %H:%M',
-    "columns": [
-      // ["x", "2021-11-10", "2021-11-12", "2021-11-13", "2021-11-14", "2021-11-22"],
-      ["x", "2021-11-10 20:25", "2021-11-11 18:10", "2021-11-11 20:23", "2021-11-12 17:11", "2021-11-22 12:00"],
-      // ["x", "2021-11-10 20:25:00", "2021-11-11 18:10:00", "2021-11-11 20:23:00", "2021-11-12 17:11:00", "2021-11-22 12:00:00"],
-      ["조회수", 12, 22 ,7, 8, 4],
-      ["찜 횟수", 2, 2, 2, 2, 1]
-    ]
-  },
-  "axis": {
-    "x": {
-      "type": "timeseries",
-      "tick": {
-        // "format": "%Y-%m-%d",
-        "format": "%Y-%m-%d %H:%M",
-        // "format": "%Y-%m-%d %H:%M:%S",
-        // "format": function(x: any) {
-        //   return x.getMonth();
-        // },
-        "multiline": true
+const sample = ["x", "2021-11-10", "2021-11-12", "2021-11-12", "2021-11-14", "2021-11-22"]
+const dibs = {"total":10, "2021-11-10":1, "2021-11-12":2}
+
+function isNumeric(data : string) : boolean {
+  return !isNaN(Number(data));
+}
+
+function dibsDatetoMonth(data: Object) {
+  var month : any = {};
+  console.log(Object.keys(data));
+  for (const key of Object.keys(data) as (keyof typeof data)[]) {
+    console.log(data[key]);
+    if (isNumeric(key[0])) {
+      const tempYear = key.slice(0, 4);
+      const tempMonth = key.slice(5, 7);
+      const tempDate = tempYear + "-" + tempMonth;
+      
+      if (!Object.keys(month).includes(tempDate)) {
+        month[tempDate] = data[key];
+        console.log(tempDate, 1)
+      }
+      else {
+        month[tempDate] += data[key];
       }
     }
-  },
-  "bindto": "#chart",
-  "padding": {
-    "top": 20,
-    "bottom": 20,
-    "left": 100,
-    "right": 100
-  },
-  "zoom": {
-    // for ESM import usage, import 'zoom' module and execute it as
-    "enabled": zoom()
-    // enabled: true
-  },
+  }
+  return month
+}
 
-  // "color": {
-  //   "pattern": [
-  //     "red",
-  //     "blue",
-  //     "cyan"
-  //   ]
-  // }
-  
-});
+function dibsDatetoDay(data: Object) {
+  var month : any = {};
+  console.log(Object.keys(data));
+  for (const key of Object.keys(data) as (keyof typeof data)[]) {
+    console.log(data[key]);
+    if (isNumeric(key[0])) {
+      const tempYear = key.slice(0, 4);
+      const tempMonth = key.slice(5, 7);
+      const tempDate = tempYear + "-" + tempMonth;
+      
+      if (!Object.keys(month).includes(tempDate)) {
+        month[tempDate] = data[key];
+        console.log(tempDate, 1)
+      }
+      else {
+        month[tempDate] += data[key];
+      }
+    }
+  }
+  return month
+}
 
 
 const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
   const { state } = props.location;
+  const [option, setOption] = useState(1);
+  
+  
+  var chart = bb.generate({
+    "data": {
+      "type": line(),
+      "x": "x",
+      "xFormat":'%Y-%m-%d %H:%M',
+      "columns": [
+        // ["x", "2021-11-10", "2021-11-12", "2021-11-13", "2021-11-14", "2021-11-22"],
+        ["x", "2021-11-10 20:25", "2021-11-11 18:10", "2021-11-11 20:23", "2021-11-12 17:11", "2021-11-22 12:00"],
+        // ["x", "2021-11-10 20:25:00", "2021-11-11 18:10:00", "2021-11-11 20:23:00", "2021-11-12 17:11:00", "2021-11-22 12:00:00"],
+        ["조회수", 12, 22 ,7, 8, 4],
+        ["찜 횟수", 2, 2, 2, 2, 1]
+      ]
+    },
+    "axis": {
+      "x": {
+        "type": "timeseries",
+        "tick": {
+          // "format": "%Y-%m-%d",
+          "format": "%Y-%m-%d %H:%M",
+          // "format": "%Y-%m-%d %H:%M:%S",
+          // "format": function(x: any) {
+          //   return x.getMonth();
+          // },
+          "multiline": true
+        }
+      }
+    },
+    "bindto": "#chart",
+    "padding": {
+      "top": 20,
+      "bottom": 20,
+      "left": 100,
+      "right": 100
+    },
+    "zoom": {
+      // for ESM import usage, import 'zoom' module and execute it as
+      "enabled": zoom()
+      // enabled: true
+    },
+
+    // "color": {
+    //   "pattern": [
+    //     "red",
+    //     "blue",
+    //     "cyan"
+    //   ]
+    // }
+    
+  });
+
+
+
+  
   return (
     <div className="ChartPage">
       {state ? (
