@@ -20,6 +20,28 @@ const ProductList = (props: ProductProps) => {
   const [hasMore, sethasMore] = useState<boolean>(false);
   const loader = useRef<HTMLDivElement | null>(null);
   const [dibsList, setDibsList] = useState<dibProducts[]>([]);
+  // useEffect(()=>{
+  //     async function checkProductDib(){
+  //       // if(firstUpdate.current){
+          
+  //         const userId = sessionStorage.getItem("id");
+  //         console.log(userId);
+  //         const res = userId !==null ? await getAllDibs(userId) : -1;
+  //         res!==-1 ? setDibsList(res.data): setDibsList([]);
+  //         // res!==-1 ? console.log(res.data): console.log("no user");
+  //         // console.log(dibsList);
+  //         // console.log(res.data);
+          
+  //       // }
+  //     }
+  //     checkProductDib();
+  //     // console.log(dibsList);
+  //     // if(dibsList.find(i => i._id === info._id)){
+  //     //     // if(dibsList.some(i => i._id.includes(info._id))){
+  //     //       console.log("true: %s", info.name);
+  //     //       setIsWishAdd(true);
+  //     //     }
+    // },[]);
 
 
 //getProductList
@@ -122,7 +144,7 @@ const ProductList = (props: ProductProps) => {
         <div className="products">
           {ProductList.map((product) => {
             return (
-              <Product info={product} key={product['_id']}/>
+              <Product info={product}  key={product['_id']}/>
             );
           })}
         </div>

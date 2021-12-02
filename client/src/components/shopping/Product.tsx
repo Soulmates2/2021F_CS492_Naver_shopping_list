@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
+// import useState from 'react-usestateref'
 import { viewPatchProduct, dibsPatchProduct, getDibsofProduct } from '../../lib/api/shopping';
 import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
 import './Product.css';
@@ -48,14 +49,16 @@ class Products {
 
 export interface info {
   info: ProductInfoProps;
+  // dibsList: Products[];
 }
 
 const Product = (props: info) => {
-  const [dibsList, setDibsList] = useState<Products[]>([]);
-  // const [dibsList, setDibsList] = useState<String[]>([]);
+  const info = props.info;
+  const [dibsList, setDibsList] = useState<String[]>([]);
   const [isWishAdd, setIsWishAdd] = useState(false);
-  // const [isInUserDib, setisInUserDib] = useState(false);
-  const { info } = props;
+  const [NumDibs, setNumDibs] = useState(info.dibs.total);
+  
+  // const dibsList = props.dibsList;
   const viewUpdate = () => {
     viewPatchProduct(info._id);
   };
@@ -63,30 +66,58 @@ const Product = (props: info) => {
   const cn1 = n1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
   const firstUpdate = useRef(true);
 
+  // const dibsList = useRef<dibProducts[]>([]);
   useEffect(()=>{
-    async function checkProductDib(){
+    async function CheckProductDib(){
+      console.log("CheckProductDib called");
       // if(firstUpdate.current){
         
         const userId = sessionStorage.getItem("id");
         console.log(userId);
         const res = userId !==null ? await getAllDibs(userId) : -1;
-        res!==-1 ? setDibsList(res.data): console.log("no user");
-        res!==-1 ? console.log(res.data): console.log("no user");
-        console.log('dibsList: '+dibsList);
-        // console.log(res.data);
-        // if(dibsList.find(i => i.data._id === info._id)){
-        // // if(dibsList.some(i => i._id.includes(info._id))){
-        //   console.log("true: %s", info.name);
-        //   setIsWishAdd(true);
-        // }
+        const result:dibProducts[] = res!==-1 ? res.data: [];
+        // setDibsList(result);
+        // const [dibsList, setDibsList] = useState<dibProducts[]>(result);
+        // console.log(dibsRef.current);
+        // const dibsList = 
+        // console.log(dibsList);
+        // res!==-1 ? setDibsList(res.data) : console.log("no user");
+        // console.log(dibsList.current);
+        // console.log(result);
+
+        if(result.find(i => i._id === info._id)){
+        // if(dibsList.some(i => i._id.includes(info._id))){
+          console.log("true: %s", info.name);
+          setIsWishAdd(true);
+        }
+        
       // }
     }
-    checkProductDib();
-  },[]);
+    CheckProductDib();
+    // console.log(dibsList);
+    // if(dibsList.find(i => i._id === info._id)){
+    //     // if(dibsList.some(i => i._id.includes(info._id))){
+    //       console.log("true: %s", info.name);
+    //       setIsWishAdd(true);
+    //     }
+  },[dibsList]);
+  // console.log(dibsList);
+
+  
+  // useEffect(()=>{
+  //   console.log(dibsList);
+  //   if(dibsList.find(i => i._id === info._id)){
+  //   // if(dibsList.some(i => i._id.includes(info._id))){
+  //     console.log("true: %s", info.name);
+  //     setIsWishAdd(true);
+  //   }
+  // },[]);
+  
   
 
   const wishAddHandler = (e:any) => {
     setIsWishAdd(!isWishAdd);
+    console.log(isWishAdd + " of product "+info.name);
     //찜 버튼이 눌렸을땐 product page로 넘어가지 않고 view 횟수를 더하지도 않는다.
     e.preventDefault();
     e.stopPropagation();
@@ -97,10 +128,11 @@ const Product = (props: info) => {
   useEffect(()=>{
     async function changeServerOfDibs(){
       if(firstUpdate.current){
-        console.log("not yet");
+        // console.log("not yet");
+        // console.log(dibsList);
         firstUpdate.current = false;
       } else{
-        console.log("update dibs")
+        // console.log("update dibs")
         //찜 되었을때 user의 dibs에 찜한 아이템을 추가하고 
         //product의 dibs에도 시간과함께 찜 정보를 추가한다. (Chart를 만들기 위함)
         //또한 product의 dibs정보를 update해 likes:옆에 오는 숫자를 변경한다.
@@ -110,12 +142,15 @@ const Product = (props: info) => {
           userId !==null ? addUserDibs(userId, info._id) : console.log("no user");
           console.log("added successfully");
           dibsPatchProduct(info._id);
+          const res = await getDibsofProduct(info._id);
+          setNumDibs(res.data+1);
           // const res = await getDibsofProduct(info._id);
           // console.log("new dibs: %d", res.data);
           // info.dibs.total = res.data+1;
         } 
         //찜이 취소될때는 user dib에서 지우기만한다
         else{
+
           userId !==null ? deleteUserDibs(userId, info._id) : console.log("no user");
         } 
       }
@@ -124,19 +159,6 @@ const Product = (props: info) => {
     changeServerOfDibs();
   },[isWishAdd]);
 
-  //   useCallback(()=>{
-  //   async function checkProductDib(){
-  //     const userId = sessionStorage.getItem("id");
-  //     const res = userId !==null ? await getAllDibs(userId) : -1;
-  //     res!==-1 ? setDibsList(res.data): console.log("no user");
-
-  //     if(dibsList.some(i => i._id.includes(info._id))){
-  //     // if(dibsList.includes(info._id)){
-  //       // setisInUserDib(true);
-  //     }
-  //   }
-  //   checkProductDib();
-  // },[isWishAdd]);
 
 
   return (
@@ -149,7 +171,8 @@ const Product = (props: info) => {
           <p className="i_price">{cn1}원</p>
           <p className="i_name">{info.name}</p>
           <span className="i_view">Views: {info.view.total}  | </span>
-          <span className="i_like">Likes: {info.dibs.total}  </span>
+          {/* dibs를 state로 설정해놓기 */}
+          <span className="i_like">Likes: {NumDibs}  </span>
           <button className="button_like" onClick={wishAddHandler}>
              {isWishAdd ? <span className="y">찜하기</span>: <span className="n">찜하기</span>}
              {/* <span>찜하기</span> */}

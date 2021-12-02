@@ -50,8 +50,17 @@ export class UsersService {
         user.dibs.splice(i, 1);
       }
     }else if(updateUserDto.data.mode == 1){
-      user.dibs.push(new Products(updateUserDto.data.productId));
-      console.log("addtoDib");
+
+      if(! user.dibs.find(i => i._id === updateUserDto.data.productId)){
+        // if(dibsList.some(i => i._id.includes(info._id))){
+          // console.log("true: %s", info.name);
+          // setIsWishAdd(true);
+          user.dibs.push(new Products(updateUserDto.data.productId));
+          console.log("addtoDib");
+      } else{
+        console.log("element already in dib");
+      }
+      
     }
     // console.log("print user dibs: "+user.dibs);
     // const post = await this.UserModel.findByIdAndUpdate(id, {
