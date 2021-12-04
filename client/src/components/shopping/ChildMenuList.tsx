@@ -7,8 +7,9 @@ const ChilldMenuList = () => {
   const [childList, setChildList] = useState([]);
   const [menuChildList, setMenuChildList] = useState([]);
   const { channelID } = useLocation<{ channelID: string }>().state;
-  const { menuname } = useLocation<{ menuname: string }>().state;
-  const { submenuname } = useLocation<{ submenuname: string }>().state;
+  const { categoryName } = useLocation<{ categoryName: string }>().state;
+  const { menuName } = useLocation<{ menuName: string }>().state;
+  const { submenuName } = useLocation<{ submenuName: string }>().state;
   const query = new URLSearchParams(useLocation().search);
   const categoryId = query.get('category');
   const menuId = query.get('menu');
@@ -34,7 +35,7 @@ const ChilldMenuList = () => {
 
   return (
     <div className="childMenuList">
-      <h2>{menuname}</h2>
+      <h2>{categoryName}</h2>
       {childList.length !== 0 ? (
         <Radio.Group value={menuId} buttonStyle="solid">
           {childList.map((data: any) => {
@@ -44,8 +45,8 @@ const ChilldMenuList = () => {
                   search: `category=${categoryId}&menu=${data._id}`,
                   state: {
                     channelID: channelID,
-                    menuname: menuname,
-                    submenuname: data.name,
+                    categoryName: categoryName,
+                    menuName: data.name,
                   },
                 }}
               >
@@ -59,7 +60,7 @@ const ChilldMenuList = () => {
       )}
       {menuChildList.length !== 0 ? (
         <div className="subMenuList">
-          <h2>{submenuname}</h2>
+          <h2>{menuName}</h2>
           <Radio.Group value={submenuID} buttonStyle="solid">
             {menuChildList.map((data: any) => {
               return (
@@ -68,8 +69,9 @@ const ChilldMenuList = () => {
                     search: `category=${categoryId}&menu=${data.parentId}&submenu=${data._id}`,
                     state: {
                       channelID: channelID,
-                      menuname: menuname,
-                      submenuname: submenuname,
+                      categoryName: categoryName,
+                      menuName: menuName,
+                      submenuName: data.name,
                     },
                   }}
                 >
@@ -82,6 +84,7 @@ const ChilldMenuList = () => {
       ) : (
         <></>
       )}
+      <h2 style={{ marginTop: '20px' }}>{submenuName}</h2>
     </div>
   );
 };

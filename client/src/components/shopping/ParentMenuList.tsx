@@ -43,7 +43,10 @@ const ParentMenuList = () => {
                   to={{
                     pathname: `/channels/${channelID}/category`,
                     search: `category=${menuInfo._id}`,
-                    state: { channelID: channelID, menuname: menuInfo.name },
+                    state: {
+                      channelID: channelID,
+                      categoryName: menuInfo.name,
+                    },
                   }}
                   replace
                 >
