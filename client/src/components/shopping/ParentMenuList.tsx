@@ -24,7 +24,6 @@ const ParentMenuList = () => {
               to={{
                 pathname: `/channels/${channelID}`,
               }}
-              replace
             >
               전체
             </Link>
@@ -37,7 +36,6 @@ const ParentMenuList = () => {
                     pathname: `/channels/${channelID}/category`,
                     search: `category=${menuInfo._id}`,
                   }}
-                  replace
                 >
                   {menuInfo.name}
                 </Link>

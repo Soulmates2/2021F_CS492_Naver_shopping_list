@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { getProducts, getProductsFromMenu } from '../../lib/api/shopping';
+import { getProductsFromMenu } from '../../lib/api/shopping';
 import Product, { ProductInfoProps } from './Product';
 import './ProductList.css';
 
@@ -11,6 +11,7 @@ const ProductList = () => {
   const [hasMore, sethasMore] = useState<boolean>(false);
   const loader = useRef<HTMLDivElement | null>(null);
   const { channelID } = useParams<{ channelID: string }>();
+  let i = 0;
   const query = new URLSearchParams(useLocation().search);
   let menuID: string | null = '';
   if (query.get('submenu') !== null) {
@@ -26,19 +27,17 @@ const ProductList = () => {
       setLoading(true);
       setPage(0);
       setProductList([]);
-      // sethasMore(true);
       const res = await getProductsFromMenu(channelID, menuID, 1);
       setProductList(res.data);
       if (res.data.length < 8) {
         sethasMore(false);
-        // sethasMore(true);
       } else {
         sethasMore(true);
       }
       setLoading(false);
     }
     sendQuery();
-  }, [channelID, menuID, useLocation().search]);
+  }, [channelID, menuID]);
 
   useEffect(() => {
     async function sendQuery2() {
@@ -55,13 +54,12 @@ const ProductList = () => {
       }
     }
     sendQuery2();
-  }, [page, channelID, hasMore, menuID, useLocation().search]);
+  }, [page, channelID, hasMore, menuID]);
 
   //loader와 intersect하면 page를 increase함
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
     if (target.isIntersecting) {
-      // console.log("page: %d", page);
       setPage((prev) => prev + 1);
     }
   }, []);
@@ -72,26 +70,34 @@ const ProductList = () => {
       rootMargin: '10px',
       threshold: 1,
     };
-    // if(hasMore){
     const observer = new IntersectionObserver(handleObserver, option);
     if (loader.current) observer.observe(loader.current);
-    // }
   }, [handleObserver]);
 
   //프로덕트리스트로 프로덕트 컴포넌트의 리스트를 만듭니다.
   return (
     <div className="productList">
-      <h1>Product List</h1>
-      <div className="products">
-        {ProductList.map((product) => {
-          return <Product info={product} key={product['_id']} />;
-        })}
-      </div>
-      <div className="atEnd">
-        <div ref={loader} />
-        {loading && <p>Loading...</p>}
-        {!hasMore && <h4>End of List</h4>}
-      </div>
+      {ProductList.length !== 0 ? (
+        <>
+          <div className="products">
+            {ProductList.map((product: any) => {
+              i++;
+              return <Product info={product} key={product._id + i} />;
+            })}
+          </div>
+          <div className="atEnd">
+            <div ref={loader} />
+            {loading && <p>Loading...</p>}
+            {!hasMore && <h4>End of List</h4>}
+          </div>
+        </>
+      ) : (
+        <div className="noProduct">
+          <div>
+            <h1>상품이 존재하지 않습니다.</h1>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

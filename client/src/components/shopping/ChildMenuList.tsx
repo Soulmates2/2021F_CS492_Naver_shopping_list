@@ -39,7 +39,6 @@ const ChilldMenuList = () => {
                   to={{
                     search: `category=${categoryId}&menu=${data._id}`,
                   }}
-                  replace
                 >
                   {data.name}
                 </Link>

@@ -13,3 +13,9 @@
   color: #000000;
   text-align: center;
 }
+
+.noProduct {
+  height: 500px;
+  text-align: center;
+  margin-top: 200px;
+}

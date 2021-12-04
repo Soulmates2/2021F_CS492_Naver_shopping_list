@@ -14,12 +14,6 @@ export const getChildMenu = (menuId: string) => {
   return client.get(`/api/menus/parent/${menuId}`);
 };
 
-export const getProducts = (channelId: string, page: number) => {
-  return client.get(`/api/products/${page}`, {
-    params: { channelNo: channelId },
-  });
-};
-
 export const getProductsFromMenu = (
   channelId: string,
   menuId: string | null,
