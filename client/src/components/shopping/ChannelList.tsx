@@ -39,14 +39,31 @@ const ChannelList = () => {
       <Tabs
         activeKey={channelID}
         tabPosition={'top'}
-        style={{ height: 80, marginLeft: 20 }}
+        style={{
+          marginLeft: 20,
+        }}
         onTabClick={(e) => {
           handleClick(e);
         }}
       >
-        <TabPane key="/home" tab={<>홈</>} />
+        <TabPane
+          key="/home"
+          tab={
+            <div
+              style={{ width: '40px', textAlign: 'center' }}
+              className="channel"
+            >
+              홈
+            </div>
+          }
+        />
         {channelList.map((channel) => {
-          return <TabPane tab={<>{channel.name}</>} key={channel._id} />;
+          return (
+            <TabPane
+              tab={<div className="channel">{channel.name}</div>}
+              key={channel._id}
+            />
+          );
         })}
       </Tabs>
     </div>

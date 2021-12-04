@@ -77,7 +77,7 @@ const ProductList = () => {
   //프로덕트리스트로 프로덕트 컴포넌트의 리스트를 만듭니다.
   return (
     <div className="productList">
-      {ProductList.length !== 0 ? (
+      {hasMore || ProductList.length !== 0 ? (
         <>
           <div className="products">
             {ProductList.map((product: any) => {

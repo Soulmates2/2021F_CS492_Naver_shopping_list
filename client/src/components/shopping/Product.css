@@ -5,10 +5,12 @@
   display: inline-block;
 }
 .item_card {
+  margin-top: 30px;
   box-sizing: border-box;
   width: 330px;
   height: 450px;
   border: solid #000000 2px;
+  border-radius: 10px;
   padding: 10px;
   list-style-type: none;
   color: #000000;

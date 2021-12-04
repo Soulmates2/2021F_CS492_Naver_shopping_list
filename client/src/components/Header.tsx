@@ -7,7 +7,10 @@ const Header = () => {
   return (
     <header>
       <div className="header-title">
-        <Link to={'/'} style={{ color: 'white' }}>
+        <Link
+          to={{ pathname: '/home', state: { channelID: '/home' } }}
+          style={{ color: 'white' }}
+        >
           NAVER SHOPPING
         </Link>
       </div>

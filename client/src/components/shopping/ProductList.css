@@ -1,9 +1,10 @@
 .products {
   padding-bottom: 3%;
   padding-top: 0px;
-  width: 1500px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+  display: inline-block;
 }
 .atEnd {
   width: 99%;

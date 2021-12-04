@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getChildMenu } from '../../lib/api/shopping';
+import { List, Radio } from 'antd';
 
 const ChilldMenuList = () => {
   const [childList, setChildList] = useState([]);
   const [menuChildList, setMenuChildList] = useState([]);
-  const query = new URLSearchParams(useLocation().search);
   const { channelID } = useLocation<{ channelID: string }>().state;
+  const { menuname } = useLocation<{ menuname: string }>().state;
+  const { submenuname } = useLocation<{ submenuname: string }>().state;
+  const query = new URLSearchParams(useLocation().search);
   const categoryId = query.get('category');
   const menuId = query.get('menu');
+  const submenuID = query.get('submenu');
 
   useEffect(() => {
     (async () => {
@@ -30,44 +34,51 @@ const ChilldMenuList = () => {
 
   return (
     <div className="childMenuList">
+      <h2>{menuname}</h2>
       {childList.length !== 0 ? (
-        <>
-          <h1>촤일드</h1>
+        <Radio.Group value={menuId} buttonStyle="solid">
           {childList.map((data: any) => {
             return (
-              <li key={data._id}>
-                <Link
-                  to={{
-                    search: `category=${categoryId}&menu=${data._id}`,
-                    state: { channelID: channelID },
-                  }}
-                >
-                  {data.name}
-                </Link>
-              </li>
+              <Link
+                to={{
+                  search: `category=${categoryId}&menu=${data._id}`,
+                  state: {
+                    channelID: channelID,
+                    menuname: menuname,
+                    submenuname: data.name,
+                  },
+                }}
+              >
+                <Radio.Button value={data._id}>{data.name}</Radio.Button>
+              </Link>
             );
           })}
-        </>
+        </Radio.Group>
       ) : (
         <></>
       )}
-      {menuId !== null && menuChildList.length !== 0 ? (
-        <>
-          {menuChildList.map((data: any) => {
-            return (
-              <li key={data._id}>
+      {menuChildList.length !== 0 ? (
+        <div className="subMenuList">
+          <h2>{submenuname}</h2>
+          <Radio.Group value={submenuID} buttonStyle="solid">
+            {menuChildList.map((data: any) => {
+              return (
                 <Link
                   to={{
                     search: `category=${categoryId}&menu=${data.parentId}&submenu=${data._id}`,
-                    state: { channelID: channelID },
+                    state: {
+                      channelID: channelID,
+                      menuname: menuname,
+                      submenuname: submenuname,
+                    },
                   }}
                 >
-                  {data.name}
+                  <Radio.Button value={data._id}>{data.name}</Radio.Button>
                 </Link>
-              </li>
-            );
-          })}
-        </>
+              );
+            })}
+          </Radio.Group>
+        </div>
       ) : (
         <></>
       )}

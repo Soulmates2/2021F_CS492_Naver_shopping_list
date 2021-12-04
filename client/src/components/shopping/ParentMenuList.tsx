@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { getChannelParentMenu } from '../../lib/api/shopping';
 import { Link, Route, useLocation } from 'react-router-dom';
 import ChildMenuList from './ChildMenuList';
+import { Radio } from 'antd';
 
 const ParentMenuList = () => {
   const [MenuList, setMenuList] = useState([]);
   const { channelID } = useLocation<{ channelID: string }>().state;
-  console.log(channelID);
+  const query = new URLSearchParams(useLocation().search);
+  const categoryId = query.get('category') || '';
   //API와 연동하여 해당 채널의 모든 메뉴들을 menuList에 세팅합니다.
   useEffect(() => {
     (async () => {
@@ -18,37 +20,44 @@ const ParentMenuList = () => {
   //메뉴리스트들로 메뉴 컴포넌트의 리스트를 만듭니다.
   return (
     <div className="menuList">
-      {MenuList.length !== 0 ? (
-        <ul>
-          <li key="whole">
+      <div className="parentMenuList">
+        <h2>CATEGORY</h2>
+        {MenuList.length !== 0 ? (
+          <Radio.Group value={categoryId} buttonStyle="solid">
             <Link
               to={{
                 pathname: `/channels/${channelID}`,
                 state: { channelID: channelID },
               }}
+              replace
             >
-              전체
+              <Radio.Button value={''} className="rbut">
+                전체
+              </Radio.Button>
             </Link>
-          </li>
-          {MenuList.map((menuInfo: any) => {
-            return (
-              <li key={menuInfo._id}>
+
+            {MenuList.map((menuInfo: any) => {
+              return (
                 <Link
+                  key={menuInfo._id}
                   to={{
                     pathname: `/channels/${channelID}/category`,
                     search: `category=${menuInfo._id}`,
-                    state: { channelID: channelID },
+                    state: { channelID: channelID, menuname: menuInfo.name },
                   }}
+                  replace
                 >
-                  {menuInfo.name}
+                  <Radio.Button value={menuInfo._id}>
+                    {menuInfo.name}
+                  </Radio.Button>
                 </Link>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <></>
-      )}
+              );
+            })}
+          </Radio.Group>
+        ) : (
+          <></>
+        )}
+      </div>
       <Route path={`/channels/:channelID/category`} component={ChildMenuList} />
     </div>
   );
