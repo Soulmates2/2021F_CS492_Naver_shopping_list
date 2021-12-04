@@ -6,6 +6,7 @@ const ChilldMenuList = () => {
   const [childList, setChildList] = useState([]);
   const [menuChildList, setMenuChildList] = useState([]);
   const query = new URLSearchParams(useLocation().search);
+  const { channelID } = useLocation<{ channelID: string }>().state;
   const categoryId = query.get('category');
   const menuId = query.get('menu');
 
@@ -38,6 +39,7 @@ const ChilldMenuList = () => {
                 <Link
                   to={{
                     search: `category=${categoryId}&menu=${data._id}`,
+                    state: { channelID: channelID },
                   }}
                 >
                   {data.name}
@@ -57,6 +59,7 @@ const ChilldMenuList = () => {
                 <Link
                   to={{
                     search: `category=${categoryId}&menu=${data.parentId}&submenu=${data._id}`,
+                    state: { channelID: channelID },
                   }}
                 >
                   {data.name}

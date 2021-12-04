@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { getChannelParentMenu } from '../../lib/api/shopping';
-import { Link, Route, useParams } from 'react-router-dom';
+import { Link, Route, useLocation } from 'react-router-dom';
 import ChildMenuList from './ChildMenuList';
 
 const ParentMenuList = () => {
   const [MenuList, setMenuList] = useState([]);
-  const { channelID } = useParams<{ channelID: string }>();
+  const { channelID } = useLocation<{ channelID: string }>().state;
+  console.log(channelID);
   //API와 연동하여 해당 채널의 모든 메뉴들을 menuList에 세팅합니다.
   useEffect(() => {
     (async () => {
@@ -23,6 +24,7 @@ const ParentMenuList = () => {
             <Link
               to={{
                 pathname: `/channels/${channelID}`,
+                state: { channelID: channelID },
               }}
             >
               전체
@@ -35,6 +37,7 @@ const ParentMenuList = () => {
                   to={{
                     pathname: `/channels/${channelID}/category`,
                     search: `category=${menuInfo._id}`,
+                    state: { channelID: channelID },
                   }}
                 >
                   {menuInfo.name}
