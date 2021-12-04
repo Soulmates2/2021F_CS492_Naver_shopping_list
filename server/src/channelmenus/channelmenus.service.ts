@@ -19,7 +19,9 @@ export class ChannelmenusService {
   async findParentMenu(id: number) {
     const menuIdList = await this.ChannelMenuModel.findById(id).exec();
     let pmenuList = [];
-
+    if (menuIdList === null) {
+      return pmenuList;
+    }
     for (const menuId of menuIdList.menus) {
       const menu = await this.menusService.findOne(menuId);
       if (menu) {

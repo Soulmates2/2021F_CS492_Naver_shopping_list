@@ -11,7 +11,7 @@ const ShoppingPage = (props: RouteComponentProps<SPMatchProps, {}>) => {
   const channelID = props.match.params.channelID;
   return (
     <div className="shoppingpage">
-      <ParentMenuList channelID={channelID} />
+      <ParentMenuList />
       <ProductList channelID={channelID} />
     </div>
   );
