@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
 import Channel from './Channel';
 import { Tabs } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import {
+  Link,
+  RouteComponentProps,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 import 'antd/dist/antd.css';
 
 const { TabPane } = Tabs;
@@ -12,7 +17,8 @@ interface ChannelType {
   name: string;
 }
 const ChannelList = () => {
-  const cID = useLocation().pathname.split('/channels/')[1] || 'home';
+  const cID =
+    useLocation().pathname.split('/channels/')[1].split('/')[0] || 'home';
   const [channelList, setChannelList] = useState<ChannelType[]>([]);
   //API를 불러와 channelList에 DB channel collection을 세팅합니다.
 
