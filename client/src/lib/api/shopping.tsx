@@ -20,9 +20,13 @@ export const getProducts = (channelId: string, page: number) => {
   });
 };
 
-export const getProductsFromMenu = (page: number) => {
+export const getProductsFromMenu = (
+  channelId: string,
+  menuId: string | null,
+  page: number,
+) => {
   return client.get(`/api/products/${page}`, {
-    params: { channelNo: '', menuId: '' },
+    params: { channelNo: channelId, menuId: menuId },
   });
 };
 

@@ -6,13 +6,11 @@ const ChilldMenuList = () => {
   const [childList, setChildList] = useState([]);
   const [menuChildList, setMenuChildList] = useState([]);
   const query = new URLSearchParams(useLocation().search);
-
   const categoryId = query.get('category');
   const menuId = query.get('menu');
 
   useEffect(() => {
     (async () => {
-      console.log('?');
       if (categoryId) {
         const { data } = await getChildMenu(categoryId);
         setChildList(data);
@@ -22,7 +20,6 @@ const ChilldMenuList = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('?');
       if (menuId) {
         const { data } = await getChildMenu(menuId);
         setMenuChildList(data);

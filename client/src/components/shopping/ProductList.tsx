@@ -1,88 +1,61 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { getProducts } from '../../lib/api/shopping';
+import { useParams, useLocation } from 'react-router-dom';
+import { getProducts, getProductsFromMenu } from '../../lib/api/shopping';
 import Product, { ProductInfoProps } from './Product';
 import './ProductList.css';
 
-interface ProductProps {
-  channelID: string;
-}
-
-const ProductList = (props: ProductProps) => {
+const ProductList = () => {
   const [page, setPage] = useState<number>(0);
   const [ProductList, setProductList] = useState<ProductInfoProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [hasMore, sethasMore] = useState<boolean>(false);
   const loader = useRef<HTMLDivElement | null>(null);
-
-  //getProductList
-  //if there is more product to get set hasMore to true
-  // const sendQuery = useCallback(async()=>{
-  //   setLoading(true);
-  //   const res = await getProducts(props.channelID, page);
-  //   setProductList((prev) => [...prev, ...res.data]);
-  //   if(res.data.length > 0){
-  //       sethasMore(true);
-  //   } else{
-  //       sethasMore(false);
-  //   }
-  //   setLoading(false);
-  // },[props.channelID, page]);
-
-  //channel이 바뀔때 productlist와 page를 initialize함
-  // useEffect(()=>{
-  //     setProductList([]);
-  //     setPage(0);
-  // }, [props.channelID]);
-
-  //channel이 바뀌면 위에서 initialize한 후 productlist를 불러옴
-  //page가 바뀌면 initialize하지 않고 sendquery를 불러옴
-  // useEffect(()=>{
-  //     sendQuery();
-  // }, [props.channelID, page]);
+  const { channelID } = useParams<{ channelID: string }>();
+  const query = new URLSearchParams(useLocation().search);
+  let menuID: string | null = '';
+  if (query.get('submenu') !== null) {
+    menuID = query.get('submenu');
+  } else if (query.get('menu') !== null) {
+    menuID = query.get('menu');
+  } else if (query.get('category') !== null) {
+    menuID = query.get('category');
+  }
 
   useEffect(() => {
     async function sendQuery() {
-      console.log('first');
       setLoading(true);
       setPage(0);
       setProductList([]);
       // sethasMore(true);
-      const res = await getProducts(props.channelID, 1);
+      const res = await getProductsFromMenu(channelID, menuID, 1);
       setProductList(res.data);
       if (res.data.length < 8) {
-        console.log('no more');
         sethasMore(false);
         // sethasMore(true);
       } else {
-        console.log('get more');
         sethasMore(true);
       }
       setLoading(false);
     }
     sendQuery();
-  }, [props.channelID]);
+  }, [channelID, menuID, useLocation().search]);
 
   useEffect(() => {
     async function sendQuery2() {
       if (hasMore && page > 1) {
-        // if(page>1){
-        // if(page>1 && hasMore){
-        console.log('second page: %d', page);
         setLoading(true);
-        const res = await getProducts(props.channelID, page);
+        const res = await getProductsFromMenu(channelID, menuID, page);
         setProductList((prev) => [...prev, ...res.data]);
         if (res.data.length < 8) {
-          console.log('bye');
           sethasMore(false);
         } else {
-          console.log('hi');
           sethasMore(true);
         }
         setLoading(false);
       }
     }
     sendQuery2();
-  }, [page]);
+  }, [page, channelID, hasMore, menuID, useLocation().search]);
 
   //loader와 intersect하면 page를 increase함
   const handleObserver = useCallback((entries) => {
