@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import Product, {ProductInfoProps} from '../shopping/Product';
 import OptionList from '../chart/OptionList';
 import WrongAccess from './WrongAccess';
 import bb, {area, bar, line, zoom} from "billboard.js";
+import { Radio } from 'antd';
 import "billboard.js/dist/billboard.css";
 import 'antd/dist/antd.css';
 
-interface ProductInfoProps {
-  channel: object;
-  menus: Array<string>;
-  modDate: Date;
-  name: string;
-  productImages: Array<object>;
-  salePrice: number;
-  soldout: boolean;
-  _id: string;
-  view: object;
+
+interface ProductProps {
+  channelID: string;
 }
 
 
@@ -26,7 +21,7 @@ function isNumeric(data : string) : boolean {
   return !isNaN(Number(data));
 }
 
-function dibsDatetoMonth(data: Object) {
+function DatetoMonth(data: Object) {
   var month : any = {};
   console.log(Object.keys(data));
   for (const key of Object.keys(data) as (keyof typeof data)[]) {
@@ -48,34 +43,39 @@ function dibsDatetoMonth(data: Object) {
   return month
 }
 
-function dibsDatetoDay(data: Object) {
-  var month : any = {};
+function DatetoDay(data: Object) {
+  var day : any = {};
   console.log(Object.keys(data));
   for (const key of Object.keys(data) as (keyof typeof data)[]) {
     console.log(data[key]);
     if (isNumeric(key[0])) {
       const tempYear = key.slice(0, 4);
       const tempMonth = key.slice(5, 7);
-      const tempDate = tempYear + "-" + tempMonth;
+      const tempDay = key.slice(8,10);
+      const tempDate = tempYear + "-" + tempMonth + "-" + tempDay;
       
-      if (!Object.keys(month).includes(tempDate)) {
-        month[tempDate] = data[key];
+      if (!Object.keys(day).includes(tempDate)) {
+        day[tempDate] = data[key];
         console.log(tempDate, 1)
       }
       else {
-        month[tempDate] += data[key];
+        day[tempDate] += data[key];
       }
     }
   }
-  return month
+  return day
 }
 
 
 const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
   const { state } = props.location;
   const [option, setOption] = useState(1);
-  
-  
+  const view = state.view;
+  const dibs = state.dibs;
+  // console.log(view);
+  // console.log(dibs);
+
+
   var chart = bb.generate({
     "data": {
       "type": line(),
@@ -126,6 +126,18 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
     
   });
 
+  const handleInputChange = (value: number) => {
+    if (value == 1) {
+      console.log("1")
+    }
+    if (value == 2) {
+      console.log("2");
+    }
+    if (value == 3) {
+      console.log("3");
+    }
+    setOption(value);
+  };
 
 
   

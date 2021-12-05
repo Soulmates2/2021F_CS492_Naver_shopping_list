@@ -21,7 +21,7 @@ const OptionList = (props: OptionProps) => {
 
   const handleInputChange = (value: number) => {
     if (value == 1) {
-      console.log("1")
+      console.log("1");
     }
     if (value == 2) {
       console.log("2");
