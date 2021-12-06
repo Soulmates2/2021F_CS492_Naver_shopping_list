@@ -1,25 +1,13 @@
-# 2021 CS492 FE Naver Shopping List
+# Product Card
 
-### 스펙
+### Server
 
-backend : nest.js/typescript  
-frontend : React/typescript/네이버 로그인 API  
-API:axios를 통한 연동/restful API
-UI Library : Antd
-Chart Library : billboard.js  
-DB:MongoDB
+channel이 바뀌면 해당 channelId에 해당하는 product들을 return한다.
 
-### 서버실행방법
+### Client
 
-```bash
-$ cd server
-$ npm install
-$ npm run start
-```
+ProductList.tsx, .css와 Product.tsx, .css 네 개의 파일을 사용.
+css파일들로 전체적인 productcard와 list 부분들의 디자인을 변경하였다.
+ProductList.tsx파일에서 channel이 바뀔때마다 channelID에 해당하는 product들을 서버에서 불러와 Product.tsx로 넘겨주었다.
+이렇게 받은 데이터를 사용해 Product.tsx에서 Product Card를 만들어주었다. 
 
-### 클라이언트 실행방법
-
-```bash
-$ npm install
-$ yarn start
-```
