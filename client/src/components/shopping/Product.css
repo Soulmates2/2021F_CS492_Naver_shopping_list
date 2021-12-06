@@ -9,6 +9,7 @@
   width: 330px;
   height: 450px;
   border: solid #000000 2px;
+  border-radius: 10px;
   padding: 10px;
   list-style-type: none;
   color: #000000;
