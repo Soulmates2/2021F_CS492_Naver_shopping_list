@@ -23,3 +23,5 @@ $ npm run start
 $ npm install
 $ yarn start
 ```
+
+Server의 product를 다루는 코드와 Client의 productlist.tsx 코드를 수정하여 한번에 8개씩 product를 받아오는 infiniteScroll을 구현하였다.
