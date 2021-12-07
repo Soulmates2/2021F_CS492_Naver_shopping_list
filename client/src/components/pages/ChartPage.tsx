@@ -19,64 +19,64 @@ interface ProductInfoProps {
   dibs: object;
 }
 
-const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
-  const { state } = props.location;
-
-  var chart = bb.generate({
-    data: {
-      type: line(),
-      x: 'x',
-      xFormat: '%Y-%m-%d %H:%M',
-      columns: [
-        // ["x", "2021-11-10", "2021-11-12", "2021-11-13", "2021-11-14", "2021-11-22"],
-        [
-          'x',
-          '2021-11-10 20:25',
-          '2021-11-11 18:10',
-          '2021-11-11 20:23',
-          '2021-11-12 17:11',
-          '2021-11-22 12:00',
-        ],
-        // ["x", "2021-11-10 20:25:00", "2021-11-11 18:10:00", "2021-11-11 20:23:00", "2021-11-12 17:11:00", "2021-11-22 12:00:00"],
-        ['조회수', 12, 22, 7, 8, 4],
-        ['찜 횟수', 2, 2, 2, 2, 1],
+var chart = bb.generate({
+  data: {
+    type: line(),
+    x: 'x',
+    xFormat: '%Y-%m-%d %H:%M',
+    columns: [
+      // ["x", "2021-11-10", "2021-11-12", "2021-11-13", "2021-11-14", "2021-11-22"],
+      [
+        'x',
+        '2021-11-10 20:25',
+        '2021-11-11 18:10',
+        '2021-11-11 20:23',
+        '2021-11-12 17:11',
+        '2021-11-22 12:00',
       ],
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          // "format": "%Y-%m-%d",
-          format: '%Y-%m-%d %H:%M',
-          // "format": "%Y-%m-%d %H:%M:%S",
-          // "format": function(x: any) {
-          //   return x.getMonth();
-          // },
-          multiline: true,
-        },
+      // ["x", "2021-11-10 20:25:00", "2021-11-11 18:10:00", "2021-11-11 20:23:00", "2021-11-12 17:11:00", "2021-11-22 12:00:00"],
+      ['조회수', 12, 22, 7, 8, 4],
+      ['찜 횟수', 2, 2, 2, 2, 1],
+    ],
+  },
+  axis: {
+    x: {
+      type: 'timeseries',
+      tick: {
+        // "format": "%Y-%m-%d",
+        format: '%Y-%m-%d %H:%M',
+        // "format": "%Y-%m-%d %H:%M:%S",
+        // "format": function(x: any) {
+        //   return x.getMonth();
+        // },
+        multiline: true,
       },
     },
-    bindto: '#chart',
-    padding: {
-      top: 20,
-      bottom: 20,
-      left: 100,
-      right: 100,
-    },
-    zoom: {
-      // for ESM import usage, import 'zoom' module and execute it as
-      enabled: zoom(),
-      // enabled: true
-    },
+  },
+  bindto: '#chart',
+  padding: {
+    top: 20,
+    bottom: 20,
+    left: 100,
+    right: 100,
+  },
+  zoom: {
+    // for ESM import usage, import 'zoom' module and execute it as
+    enabled: zoom(),
+    // enabled: true
+  },
 
-    // "color": {
-    //   "pattern": [
-    //     "red",
-    //     "blue",
-    //     "cyan"
-    //   ]
-    // }
-  });
+  // "color": {
+  //   "pattern": [
+  //     "red",
+  //     "blue",
+  //     "cyan"
+  //   ]
+  // }
+});
+
+const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
+  const { state } = props.location;
   return (
     <div className="ChartPage">
       {state ? (
