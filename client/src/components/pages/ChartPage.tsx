@@ -286,7 +286,6 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
     
   });
 
-  
   return (
     <div className="ChartPage">
       {state ? (
@@ -309,9 +308,7 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
       ) : (
         <WrongAccess />
       )}
-      
     </div>
-    
   );
 };
 

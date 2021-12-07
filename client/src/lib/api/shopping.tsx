@@ -14,17 +14,13 @@ export const getChildMenu = (menuId: string) => {
   return client.get(`/api/menus/parent/${menuId}`);
 };
 
-// //채널아이디와 채널네임이을 쿼리로 보내줘야 해당 채널의 프로덕트들을 가져올 수 있습니다.
-// export const getProducts = (channelId: string) => {
-//   return client.get(`/api/products`, {
-//     params: { channelNo: channelId },
-//   });
-// };
-
-//채널아이디와 채널네임이을 쿼리로 보내줘야 해당 채널의 프로덕트들을 가져올 수 있습니다.
-export const getProducts = (channelId: string, page:number) => {
+export const getProductsFromMenu = (
+  channelId: string,
+  menuId: string | null,
+  page: number,
+) => {
   return client.get(`/api/products/${page}`, {
-    params: { channelNo: channelId},
+    params: { channelNo: channelId, menuId: menuId },
   });
 };
 
