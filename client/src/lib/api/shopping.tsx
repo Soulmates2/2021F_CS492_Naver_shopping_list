@@ -29,7 +29,12 @@ export const getProduct = (productId: string) => {
   return client.get(`/api/products/${productId}`);
 };
 
-//현재시간을 data로 보내서 조회수를 증가시킨다. YYYY-MM-DD HH:MM format
+//프로덕트 id로 해당 프로덕트를 가져옵니다.
+export const getDibsofProduct = (productId: string) => {
+  return client.get(`/api/products/dibs/${productId}`);
+};
+
+//현재시간을 data로 보내서 조회수를 증가시킨다.
 //찜기능은 어떻게?
 export const viewPatchProduct = (productId: string) => {
   const date_ob = new Date();
@@ -45,8 +50,17 @@ export const viewPatchProduct = (productId: string) => {
   });
 };
 
+export const dibsPatchProduct = (productId: string) => {
+  const date_ob = new Date();
+  const date = ("0" + date_ob.getDate()).slice(-2);
+  const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  const year = date_ob.getFullYear();
+  const hours = date_ob.getHours();
+  const minutes = date_ob.getMinutes();
+  const time = year + "-" + month + "-" + date + " " + hours + ":" + minutes;
 
-//차트페이지에서 상품의 시간별 조회 정보를 가져옵니다.
+  return client.patch(`/api/products/${productId}`, {
+    data: { time: time, type: 'dibs' },
+  });
+};
 
-
-//차트페이지에서 상품의 시간별 찜 정보를 가져옵니다.

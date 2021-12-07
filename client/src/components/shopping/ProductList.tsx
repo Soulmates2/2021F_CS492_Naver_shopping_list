@@ -3,6 +3,8 @@ import { useParams, useLocation } from 'react-router-dom';
 import { getProductsFromMenu } from '../../lib/api/shopping';
 import Product, { ProductInfoProps } from './Product';
 import './ProductList.css';
+import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
+
 
 const ProductList = () => {
   const [page, setPage] = useState<number>(0);
@@ -60,7 +62,6 @@ const ProductList = () => {
   //loader와 intersect하면 page를 increase함
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
-    console.log("increase page");
     if (target.isIntersecting) {
       setPage((prev) => prev + 1);
     }
