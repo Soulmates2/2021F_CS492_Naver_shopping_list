@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getChildMenu } from '../../lib/api/shopping';
-import { List, Radio } from 'antd';
+import { Radio } from 'antd';
 
 const ChilldMenuList = () => {
   const [childList, setChildList] = useState([]);
