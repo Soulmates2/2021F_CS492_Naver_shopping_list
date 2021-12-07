@@ -6,17 +6,11 @@
 }
 .products {
   padding-bottom: 3%;
-  /* padding-top: 0px; */
-  /* margin-bottom: 3%; */
-  margin-top: 0px;
-  width: 1400px;
-  /* padding-left: 100px; */
-  /* width: 100%; */
-  margin: 0 auto;
-  position: relative;
-  margin-left: 100px;
+  padding-top: 0px;
+  width: 100%;
+  margin-left: auto;
   margin-right: auto;
-  /* align-items: center; */
+  display: inline-block;
 }
 .atEnd {
   width: 100%;
@@ -25,4 +19,10 @@
   font-size: 20px;
   color: #000000;
   text-align: center;
+}
+
+.noProduct {
+  height: 500px;
+  text-align: center;
+  margin-top: 200px;
 }

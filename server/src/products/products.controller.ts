@@ -22,10 +22,11 @@ export class ProductsController {
 
   @Get(':page')
   findByPage(
-    @Param('page') page:number,
+    @Param('page') page: number,
     @Query('channelNo') channelNo: string,
+    @Query('menuId') menuId: string,
   ) {
-    return this.productsService.findByPage(page, channelNo);
+    return this.productsService.findByPageAndMenu(page, channelNo, menuId);
   }
 
   @Get(':id')
