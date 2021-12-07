@@ -41,6 +41,7 @@ const ChilldMenuList = () => {
           {childList.map((data: any) => {
             return (
               <Link
+                key={data._id}
                 to={{
                   search: `category=${categoryId}&menu=${data._id}`,
                   state: {
@@ -65,6 +66,7 @@ const ChilldMenuList = () => {
             {menuChildList.map((data: any) => {
               return (
                 <Link
+                  key={data._id}
                   to={{
                     search: `category=${categoryId}&menu=${data.parentId}&submenu=${data._id}`,
                     state: {
