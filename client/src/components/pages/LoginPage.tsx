@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
 interface Window {
   [key: string]: any; // Add index signature
@@ -29,7 +28,7 @@ function NaverIdLogin() {
     // GET ID/NAME/EMAIL IF LOGIN SUCCESS
     naverLogin.getLoginStatus((status: any) => {
       if (status) {
-        const { id, name, email } = naverLogin.user; // PROFILE
+        const { name, email } = naverLogin.user; // PROFILE
         if (name === undefined || email === undefined) {
           alert('이름, 이메일 정보는 필수 동의입니다. 정보제공을 동의해주세요');
           naverLogin.reprompt();

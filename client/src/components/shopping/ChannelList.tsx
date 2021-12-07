@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { getAllChannels } from '../../lib/api/shopping';
-import Channel from './Channel';
 import { Tabs } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import 'antd/dist/antd.css';
-
-const { TabPane } = Tabs;
 
 interface ChannelType {
   _id: string;
   name: string;
 }
-const ChannelList = () => {
-  const cID = useLocation().pathname.split('/channels/')[1] || 'home';
-  const [channelList, setChannelList] = useState<ChannelType[]>([]);
-  //API를 불러와 channelList에 DB channel collection을 세팅합니다.
 
+const ChannelList = () => {
+  const { TabPane } = Tabs;
+  const state = useLocation<{ channelID: string }>().state;
+  const channelID = state ? state.channelID : '/home';
+  const [channelList, setChannelList] = useState<ChannelType[]>([]);
+  const history = useHistory();
+
+  //API를 불러와 channelList에 DB channel collection을 세팅합니다.
   useEffect(() => {
     (async () => {
       const { data } = await getAllChannels();
@@ -23,27 +24,43 @@ const ChannelList = () => {
     })();
   }, [setChannelList]);
 
+  const handleClick = (e: string) => {
+    if (e === '/home') {
+      history.push(e, { channelID: e });
+    } else {
+      history.push('/channels/' + e, { channelID: e });
+    }
+  };
+
   //채널리스트들로 채널컴포넌트들의 리스트를 만듭니다.
   //antdesign으로 channel들의 tab 메뉴를 만들었습니다.
   return (
     <div className="channelList">
       <Tabs
-        activeKey={cID}
+        activeKey={channelID}
         tabPosition={'top'}
-        style={{ height: 80, marginLeft: 20 }}
+        style={{
+          marginLeft: 20,
+        }}
+        onTabClick={(e) => {
+          handleClick(e);
+        }}
       >
         <TabPane
-          key="home"
+          key="/home"
           tab={
-            <Link className="channel " to={'/'}>
+            <div
+              style={{ width: '40px', textAlign: 'center' }}
+              className="channel"
+            >
               홈
-            </Link>
+            </div>
           }
         />
         {channelList.map((channel) => {
           return (
             <TabPane
-              tab={<Channel id={channel._id} content={channel.name} />}
+              tab={<div className="channel">{channel.name}</div>}
               key={channel._id}
             />
           );

@@ -1,0 +1,31 @@
+.ant-tabs-tab.ant-tabs-tab-active {
+  font-weight: bold;
+}
+
+.ant-radio-button-wrapper {
+  margin: 5px 5px 5px 5px !important;
+  border-radius: 10px !important;
+}
+
+.ant-radio-button-wrapper:hover {
+  color: #2db400 !important;
+}
+
+.ant-radio-button-wrapper-checked:hover {
+  color: white !important;
+}
+
+.ant-radio-button-wrapper-checked,
+.ant-tabs-ink-bar {
+  background-color: #2db400 !important;
+}
+
+.parentMenuList,
+.childMenuList {
+  margin-left: 20px;
+}
+
+.childMenuList,
+.subMenuList {
+  margin-top: 20px;
+}
