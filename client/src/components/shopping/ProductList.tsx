@@ -39,6 +39,7 @@ const ProductList = () => {
     sendQuery();
   }, [channelID, menuID]);
 
+
   useEffect(() => {
     async function sendQuery2() {
       if (hasMore && page > 1) {
@@ -59,6 +60,7 @@ const ProductList = () => {
   //loader와 intersect하면 page를 increase함
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
+    console.log("increase page");
     if (target.isIntersecting) {
       setPage((prev) => prev + 1);
     }
@@ -77,27 +79,17 @@ const ProductList = () => {
   //프로덕트리스트로 프로덕트 컴포넌트의 리스트를 만듭니다.
   return (
     <div className="productList">
-      {hasMore || ProductList.length !== 0 ? (
-        <>
-          <div className="products">
-            {ProductList.map((product: any) => {
-              i++;
-              return <Product info={product} key={product._id + i} />;
-            })}
-          </div>
-          <div className="atEnd">
-            <div ref={loader} />
-            {loading && <p>Loading...</p>}
-            {!hasMore && <h4>End of List</h4>}
-          </div>
-        </>
-      ) : (
-        <div className="noProduct">
-          <div>
-            <h1>상품이 존재하지 않습니다.</h1>
-          </div>
-        </div>
-      )}
+      <div className="products">
+        {ProductList.map((product: any) => {
+          i++;
+          return <Product info={product} key={product._id + i} />;
+        })}
+      </div>
+      <div className="atEnd">
+        <div ref={loader} />
+        {loading && <p>Loading…</p>}
+        {!hasMore && <h4>End of List</h4>}
+      </div>
     </div>
   );
 };
