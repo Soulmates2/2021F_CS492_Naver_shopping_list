@@ -4,7 +4,6 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from './schemas/user.schema';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateUserDto, Products } from './dto/create-user.dto';
-import { ConflictException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -40,20 +39,16 @@ export class UsersService {
     }else if(updateUserDto.data.mode == 1){
       if(! user.dibs.find(i => i._id === updateUserDto.data.productId)){
           user.dibs.push(new Products(updateUserDto.data.productId));
-          console.log("addtoDib");
       } else{
-        console.log("element already in dib");
       }
       
     }
     await user.save();
-    console.log("updated successfully: "+user.dibs);
     return 'test';
   }
 
   async findAllDibs(id: string): Promise<Products[]> {
     const user = await this.UserModel.findById(id).exec();
-    console.log("return all dibs: "+user.dibs);
     return user.dibs;
   }
 }

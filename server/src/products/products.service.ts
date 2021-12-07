@@ -21,7 +21,6 @@ export class ProductsService {
 
   async getDibs(id: number): Promise<any> {
     const befData = await this.ProductModel.findById(id).exec();
-    console.log("current dibs: %d", befData.dibs.total);
     return befData.dibs.total;
   }
 
@@ -73,7 +72,6 @@ export class ProductsService {
       const post = await this.ProductModel.findByIdAndUpdate(id, {
         dibs: befData.dibs,
       });
-      console.log("dibs update completed");
     }
     return 'test';
   }
