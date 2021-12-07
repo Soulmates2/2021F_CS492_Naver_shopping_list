@@ -4,19 +4,19 @@ import { Tabs } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
-const { TabPane } = Tabs;
-
 interface ChannelType {
   _id: string;
   name: string;
 }
+
 const ChannelList = () => {
-  const { channelID } = useLocation<{ channelID: string }>().state;
+  const { TabPane } = Tabs;
+  const state = useLocation<{ channelID: string }>().state;
+  const channelID = state ? state.channelID : '/home';
   const [channelList, setChannelList] = useState<ChannelType[]>([]);
   const history = useHistory();
 
   //API를 불러와 channelList에 DB channel collection을 세팅합니다.
-
   useEffect(() => {
     (async () => {
       const { data } = await getAllChannels();

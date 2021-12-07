@@ -1,7 +1,6 @@
-// import React, { useEffect, useState } from 'react';
-import { useEffect, useState } from 'react';
-import { Redirect, Route, Link } from 'react-router-dom';
-import { loginOrSignup, getAllDibs } from '../../lib/api/member'
+import { useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
+import { loginOrSignup } from '../../lib/api/member';
 
 interface Window {
   [key: string]: any; // Add index signature
@@ -38,9 +37,9 @@ function NaverIdLoginCallback() {
           sessionStorage.setItem('name', name);
           sessionStorage.setItem('email', email);
 
-          const login = (async () => {
+          const login = async () => {
             loginOrSignup(id);
-          });
+          };
           login();
         }
       }
