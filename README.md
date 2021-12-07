@@ -1,15 +1,15 @@
 # 2021 CS492 FE Naver Shopping List
 
-### 스펙
+## 스펙
 
 backend : nest.js/typescript  
-frontend : React/typescript/네이버 로그인 API  
-API:axios를 통한 연동/restful API. 
-UI Library : Antd. 
-Chart Library : billboard.js    
-DB:MongoDB
+frontend : React/typescript/네이버 로그인 API      
+API:axios를 통한 연동/restful API   
+UI Library : Antd   
+Chart Library : billboard.js     
+DB:MongoDB   
 
-### Setting
+## Setting
 
 ```bash
 $ gh repo clone Soulmates2/2021F_CS492_Naver_shopping_list
