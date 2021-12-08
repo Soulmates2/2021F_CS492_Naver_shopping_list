@@ -1,13 +1,30 @@
-# Infinite Scroll
+# 차트 페이지
+- billboard.js 라이브러리를 이용하여 시간별 조회수 및 찜 횟수를 확인할 수 있도록 했다. 
+- radiobutton을 클릭하면 차트가 설정한 값에 따라 바뀌는 모습을 볼 수 있다. 
+- 마우스 휠 스크롤을 통해 특정 영역을 zoom in/out 할 수 있다. 
+- 차트 아래의 label을 클릭하면 해당 label의 차트만 볼 수 있다.
 
-### Server
+### 데이터 설명
+product 객체 안에 조회수를 나타내는 객체 view와 찜 횟수를 나타내는 객체 dibs가 존재한다. 
 
-product에 findByPage function을 만들어 page를 파라미터로 받는다.
-(현재 page -1 ) \* 8 만큼은 이미 불러온 product이기에 skip하고 limit을 8로 두어 8개의 product만 불러오게 한다.
+view와 dibs 다음과 같은 형식을 가진다.
 
-### Client
+    view: {total: 1, "2021-12-07 11:14": 1}
+    dibs: {total: 1, "2021-12-07 11:14": 1}
 
-가장 처음 channel을 누르면 해당 channel에 해당하는 product 8개가 한 줄에 4개씩 뜸
-Intersection Observer를 통해 8개의 product의 끝에 닿으면 Loading을 시작
-8개의 product가 불려진다.
-더이상 불러올 product가 없을시 "End of List" 메세지가 뜬다.
+
+### 차트 설명
+데이터를 차트에 나타내기 위해서는 다음과 같은 데이터(columns) format이 필요하다.
+
+    ["x1", "2021-12-07 11:14"]
+    ["x2", "2021-12-07 11:14"]
+    ["조회수", 3]
+    ["찜 횟수", 3]
+    
+x1은 조회수에 대한 x축 정의역들을 구성하고 조회수 값은 순서대로 x1에 대응한다. 
+
+x2는 찜 횟수에 대한 x축 정의역들을 구성하고 찜 횟수 값은 순서대로 x2에 대응한다. 
+
+또한, Date format을 데이터 값에 맞게 알맞게 설정해주어야한다. (ex. "%Y-%m-%d %H:%M")
+
+데이터를 format에 맞게 변경해주기 위해 다양한 함수를 구현하였다.
