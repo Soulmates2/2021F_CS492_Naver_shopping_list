@@ -4,12 +4,12 @@ import client from './client';
 
 // 찜한 상품들을 가져옵니다
 export const getAllDibs = (userId: string) => {
-    return client.get(`/api/users/${userId}`);
+    return client.get(`/api/users/dibs/${userId}`);
 }
 
 // 유저가 DB에 없으면 회원가입, 있으면 그대로 진행
 export const loginOrSignup = (userId: string) => {
-    return client.post('/api/users', { _id: 'test', dibs: [] });
+    return client.post('/api/users', { _id: userId, dibs: [] as string[] });
 }
 
 // 찜한 상품 추가

@@ -29,7 +29,12 @@ export const getProduct = (productId: string) => {
   return client.get(`/api/products/${productId}`);
 };
 
-//현재시간을 data로 보내서 조회수를 증가시킨다. YYYY-MM-DD HH:MM format
+//프로덕트 id로 해당 프로덕트를 가져옵니다.
+export const getDibsofProduct = (productId: string) => {
+  return client.get(`/api/products/dibs/${productId}`);
+};
+
+//현재시간을 data로 보내서 조회수를 증가시킨다.
 //찜기능은 어떻게?
 export const viewPatchProduct = (productId: string) => {
   function fillZero(width: number, str: string) {

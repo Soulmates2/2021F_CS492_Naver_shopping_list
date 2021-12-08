@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useRef, useCallback, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
-import { viewPatchProduct } from '../../lib/api/shopping';
+// import useState from 'react-usestateref'
+import { viewPatchProduct, dibsPatchProduct, getDibsofProduct } from '../../lib/api/shopping';
+import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
 import './Product.css';
 
 
@@ -31,20 +33,111 @@ interface viewDibsType {
   total: number;
 }
 
+interface dibProducts{
+  _id: string;
+}
+
+
 export interface info {
   info: ProductInfoProps;
 }
 
 const Product = (props: info) => {
-  const { info } = props;
+  const info = props.info;
+  const [dibsList, setDibsList] = useState<String[]>([]);
+  const [isWishAdd, setIsWishAdd] = useState(false);
+  const [AlreadyIn, setAlreadyIn] = useState(false);
+  const [ButtonColor, setButtonColor] = useState(false);
+  const [NumDibs, setNumDibs] = useState(info.dibs.total);
+  
+  // const dibsList = props.dibsList;
   const viewUpdate = () => {
     viewPatchProduct(info._id);
   };
   const n1 = info.salePrice;
   const cn1 = n1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  const firstUpdate = useRef(true);
+
+  useEffect(()=>{
+    async function CheckProductDib(){
+        const userId = sessionStorage.getItem("id");
+        const res = userId !==null ? await getAllDibs(userId) : -1;
+        const result:dibProducts[] = res!==-1 ? res.data: [];
+
+        if(result.find(i => i._id === info._id)){
+          // setIsWishAdd(true);
+          setAlreadyIn(true);
+          setButtonColor(true);
+          // setIsWishAdd(true);
+        }
+    }
+    CheckProductDib();
+  },[dibsList]);
+
+  const wishAddHandler = (e:any) => {
+    setIsWishAdd(!isWishAdd);
+    
+    //찜 버튼이 눌렸을땐 product page로 넘어가지 않고 view 횟수를 더하지도 않는다.
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  async function getDibs(){
+    const res = await getDibsofProduct(info._id);
+    setNumDibs(res.data);
+  }
+
+  //product의 isWishAdd가 바뀔 때 즉 버튼이 눌러졌을때 불린다.
+  useEffect(()=>{
+    async function changeServerOfDibs(){
+      if(firstUpdate.current){
+        firstUpdate.current = false;
+      } else{
+        // console.log("update dibs")
+        //찜 되었을때 user의 dibs에 찜한 아이템을 추가하고 
+        //product의 dibs에도 시간과함께 찜 정보를 추가한다. (Chart를 만들기 위함)
+        //또한 product의 dibs정보를 update해 likes:옆에 오는 숫자를 변경한다.
+        const userId = sessionStorage.getItem("id");
+        if(AlreadyIn){
+          console.log("already in "+info.name);
+          if (!isWishAdd){
+              console.log("called for"+info.name);
+              dibsPatchProduct(info._id);
+              userId !==null ? addUserDibs(userId, info._id) : console.log("no user");  
+              setTimeout(getDibs, 200);   
+              setButtonColor(true);     
+          } 
+          //찜이 취소될때는 user dib에서 지우기만한다
+          else{
+            userId !==null ? deleteUserDibs(userId, info._id) : console.log("no user");
+            setButtonColor(false);
+          } 
+        } else{
+          console.log("not in "+info.name);
+          if(isWishAdd){
+            console.log("called for"+info.name);
+            dibsPatchProduct(info._id);
+            userId !==null ? addUserDibs(userId, info._id) : console.log("no user");  
+            setTimeout(getDibs, 200);
+            setButtonColor(true);   
+          } 
+          //찜이 취소될때는 user dib에서 지우기만한다
+          else{
+            userId !==null ? deleteUserDibs(userId, info._id) : console.log("no user");
+            setAlreadyIn(false);
+            setButtonColor(false);
+          } 
+        }
+        
+      }
+      
+    }
+    changeServerOfDibs();
+  },[isWishAdd]);
+
+
 
   return (
-    
       <div className="product" >
         <Link to={{ pathname: `/products/${info._id}`, state: info }}>
         <div className="item_card" onClick={viewUpdate}>
@@ -54,14 +147,14 @@ const Product = (props: info) => {
           <p className="i_price">{cn1}원</p>
           <p className="i_name">{info.name}</p>
           <span className="i_view">Views: {info.view.total}  | </span>
-          <span className="i_like">Likes: {info.dibs.total}  </span>
-          <button className="button_like">
-            <span>찜하기</span>
+          {/* dibs를 state로 설정해놓기 */}
+          <span className="i_like">Likes: {NumDibs}  </span>
+          <button className="button_like" onClick={wishAddHandler}>
+             {ButtonColor ? <span className="y">찜하기</span>: <span className="n">찜하기</span>}
           </button>
         </div>
         </Link>
       </div>
-    
   );
 };
 

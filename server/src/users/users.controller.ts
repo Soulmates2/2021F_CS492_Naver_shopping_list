@@ -28,4 +28,9 @@ export class UsersController {
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
+
+  @Get('/dibs/:id')
+  findAllDibs(@Param('id') id: string) {
+    return this.usersService.findAllDibs(id);
+  }
 }
