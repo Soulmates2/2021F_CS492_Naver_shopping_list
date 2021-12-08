@@ -12,6 +12,25 @@ function isNumeric(data : string) : boolean {
   return !isNaN(Number(data));
 }
 
+// 문자열의 빈자리 수만큼 0을 채웁니다.
+function fillZero(width: number, str: string) {
+  return str.length >= width ? str : new Array(width-str.length+1).join('0') + str;
+}
+
+// 오늘 일자를 format에 맞게 반환합니다.
+function checkToday() {
+  const date_ob = new Date();
+  const date = ("0" + date_ob.getDate()).slice(-2);
+  const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  const year = date_ob.getFullYear();
+  const hours = fillZero(2, date_ob.getHours().toString());
+  const minutes = fillZero(2, date_ob.getMinutes().toString());
+  const todayMonth = year + "-" + month;
+  const todayDate = year + "-" + month + "-" + date;
+  const todayTime = year + "-" + month + "-" + date + " " + hours + ":" + minutes;
+  return [todayMonth, todayDate, todayTime]
+}
+
 // 조회수 데이터를 월간 형식에 맞게 변형합니다.
 function ViewDatatoMonth(data: Object) {
   var month : any = {};
@@ -71,8 +90,9 @@ function ViewDatatoTime(data: Object) {
   var time : any = {};
   var timeArray = ["x1"];
   var valueArray = ["조회수"];
+  const today = checkToday();
   for (const key of Object.keys(data) as (keyof typeof data)[]) {
-    if (isNumeric(key[0])) {
+    if (isNumeric(key[0]) && key.includes(today[1])) {
       time[key] = data[key];
     }
   }
@@ -85,7 +105,7 @@ function ViewDatatoTime(data: Object) {
 }
 
 // 찜 횟수 데이터를 월간 형식에 맞게 변형합니다.
-function DibsDatatoMonth(data: Object) {
+function DibsDatatoMonth(data: Object, view: string[]) {
   var month : any = {};
   var monthArray = ["x2"];
   var valueArray = ["찜 횟수"];
@@ -107,18 +127,26 @@ function DibsDatatoMonth(data: Object) {
     monthArray.push(key);
     valueArray.push(month[key]);
   }
+
+  // 찜 횟수가 0이라면 조회수의 x축을 사용합니다.
   if (monthArray.length === 1) {
-    monthArray.push("2021-12");
-    valueArray.push("0");
+    for (const key of view) {
+      if (isNumeric(key[0])) {
+        monthArray.push(key);
+        valueArray.push("0");
+      }
+    }
   }
+  
   return [monthArray, valueArray]
 }
 
 // 찜 횟수 데이터를 주간 형식에 맞게 변형합니다.
-function DibsDatatoDay(data: Object) {
+function DibsDatatoDay(data: Object, view: string[]) {
   var day : any = {};
   var dayArray = ["x2"];
   var valueArray = ["찜 횟수"];
+  const today = checkToday();
   for (const key of Object.keys(data) as (keyof typeof data)[]) {
     if (isNumeric(key[0])) {
       const tempYear = key.slice(0, 4);
@@ -139,20 +167,28 @@ function DibsDatatoDay(data: Object) {
     dayArray.push(key);
     valueArray.push(day[key]);
   }
+
+  // 찜 횟수가 0이라면 조회수의 x축을 사용합니다.
   if (dayArray.length === 1) {
-    dayArray.push("2021-12-01");
-    valueArray.push("0");
+    for (const key of view) {
+      if (isNumeric(key[0])) {
+        dayArray.push(key);
+        valueArray.push("0");
+      }
+    }
   }
+
   return [dayArray, valueArray]
 }
 
 // 찜 횟수 데이터를 일간 형식에 맞게 변형합니다.
-function DibsDatatoTime(data: Object) {
+function DibsDatatoTime(data: Object, view: string[]) {
   var time : any = {};
   var timeArray = ["x2"];
   var valueArray = ["찜 횟수"];
+  const today = checkToday();
   for (const key of Object.keys(data) as (keyof typeof data)[]) {
-    if (isNumeric(key[0])) {
+    if (isNumeric(key[0]) && key.includes(today[1])) {
       time[key] = data[key];
     }
   }
@@ -161,10 +197,17 @@ function DibsDatatoTime(data: Object) {
     timeArray.push(key);
     valueArray.push(time[key]);
   }
+
+  // 찜 횟수가 0이라면 조회수의 x축을 사용합니다.
   if (timeArray.length === 1) {
-    timeArray.push("2021-12-01 00:00");
-    valueArray.push("0");
+    for (const key of view) {
+      if (isNumeric(key[0])) {
+        timeArray.push(key);
+        valueArray.push("0");
+      }
+    }
   }
+
   return [timeArray, valueArray]
 }
 
@@ -175,9 +218,9 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
   const timeViewData = ViewDatatoTime(view);
   const dayViewData = ViewDatatoDay(view);
   const monthViewData = ViewDatatoMonth(view);
-  const timeDibsData = DibsDatatoTime(dibs);
-  const dayDibsData = DibsDatatoDay(dibs);
-  const monthDibsData = DibsDatatoMonth(dibs);
+  const timeDibsData = DibsDatatoTime(dibs, timeViewData[0]);
+  const dayDibsData = DibsDatatoDay(dibs, dayViewData[0]);
+  const monthDibsData = DibsDatatoMonth(dibs, monthViewData[0]);
   const [option, setOption] = useState("1");
 
   // Radiobutton의 값이 바뀔 때마다 차트의 데이터를 업데이트해줍니다.
