@@ -1,6 +1,5 @@
-import React, { useState, useRef, useCallback, useEffect }  from 'react';
+import React, { useState, useRef, useEffect }  from 'react';
 import { Link } from 'react-router-dom';
-// import useState from 'react-usestateref'
 import { viewPatchProduct, dibsPatchProduct, getDibsofProduct } from '../../lib/api/shopping';
 import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
 import './Product.css';
@@ -44,13 +43,11 @@ export interface info {
 
 const Product = (props: info) => {
   const info = props.info;
-  const [dibsList, setDibsList] = useState<String[]>([]);
   const [isWishAdd, setIsWishAdd] = useState(false);
   const [AlreadyIn, setAlreadyIn] = useState(false);
   const [ButtonColor, setButtonColor] = useState(false);
   const [NumDibs, setNumDibs] = useState(info.dibs.total);
   
-  // const dibsList = props.dibsList;
   const viewUpdate = () => {
     viewPatchProduct(info._id);
   };
@@ -65,14 +62,12 @@ const Product = (props: info) => {
         const result:dibProducts[] = res!==-1 ? res.data: [];
 
         if(result.find(i => i._id === info._id)){
-          // setIsWishAdd(true);
           setAlreadyIn(true);
           setButtonColor(true);
-          // setIsWishAdd(true);
         }
     }
     CheckProductDib();
-  },[dibsList]);
+  },[info._id]);
 
   const wishAddHandler = (e:any) => {
     setIsWishAdd(!isWishAdd);
@@ -93,15 +88,13 @@ const Product = (props: info) => {
       if(firstUpdate.current){
         firstUpdate.current = false;
       } else{
-        // console.log("update dibs")
+
         //찜 되었을때 user의 dibs에 찜한 아이템을 추가하고 
         //product의 dibs에도 시간과함께 찜 정보를 추가한다. (Chart를 만들기 위함)
         //또한 product의 dibs정보를 update해 likes:옆에 오는 숫자를 변경한다.
         const userId = sessionStorage.getItem("id");
         if(AlreadyIn){
-          console.log("already in "+info.name);
           if (!isWishAdd){
-              console.log("called for"+info.name);
               dibsPatchProduct(info._id);
               userId !==null ? addUserDibs(userId, info._id) : console.log("no user");  
               setTimeout(getDibs, 200);   
@@ -112,16 +105,14 @@ const Product = (props: info) => {
             userId !==null ? deleteUserDibs(userId, info._id) : console.log("no user");
             setButtonColor(false);
           } 
+
         } else{
-          console.log("not in "+info.name);
           if(isWishAdd){
-            console.log("called for"+info.name);
             dibsPatchProduct(info._id);
             userId !==null ? addUserDibs(userId, info._id) : console.log("no user");  
             setTimeout(getDibs, 200);
             setButtonColor(true);   
           } 
-          //찜이 취소될때는 user dib에서 지우기만한다
           else{
             userId !==null ? deleteUserDibs(userId, info._id) : console.log("no user");
             setAlreadyIn(false);
@@ -147,7 +138,6 @@ const Product = (props: info) => {
           <p className="i_price">{cn1}원</p>
           <p className="i_name">{info.name}</p>
           <span className="i_view">Views: {info.view.total}  | </span>
-          {/* dibs를 state로 설정해놓기 */}
           <span className="i_like">Likes: {NumDibs}  </span>
           <button className="button_like" onClick={wishAddHandler}>
              {ButtonColor ? <span className="y">찜하기</span>: <span className="n">찜하기</span>}
