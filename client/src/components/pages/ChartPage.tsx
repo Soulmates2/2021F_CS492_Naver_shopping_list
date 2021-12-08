@@ -9,11 +9,6 @@ import "billboard.js/dist/billboard.css";
 import 'antd/dist/antd.css';
 
 
-interface ProductProps {
-  channelID: string;
-}
-
-
 function isNumeric(data : string) : boolean {
   return !isNaN(Number(data));
 }
@@ -109,7 +104,7 @@ function DibsDatatoMonth(data: Object) {
     monthArray.push(key);
     valueArray.push(month[key]);
   }
-  if (monthArray.length == 1) {
+  if (monthArray.length === 1) {
     monthArray.push("2021-12");
     valueArray.push("0");
   }
@@ -140,7 +135,7 @@ function DibsDatatoDay(data: Object) {
     dayArray.push(key);
     valueArray.push(day[key]);
   }
-  if (dayArray.length == 1) {
+  if (dayArray.length === 1) {
     dayArray.push("2021-12-01");
     valueArray.push("0");
   }
@@ -161,7 +156,7 @@ function DibsDatatoTime(data: Object) {
     timeArray.push(key);
     valueArray.push(time[key]);
   }
-  if (timeArray.length == 1) {
+  if (timeArray.length === 1) {
     timeArray.push("2021-12-01 00:00");
     valueArray.push("0");
   }
@@ -170,12 +165,6 @@ function DibsDatatoTime(data: Object) {
 
 const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
   const { state } = props.location;
-  const [option, setOption] = useState("1");
-  const [format, setFormat] = useState("%Y-%m-%d %H:%M");
-  const [x1, setX1] = useState(["x1", "2021-11-10 20:25", "2021-11-11 18:10", "2021-11-11 20:23", "2021-11-12 17:11", "2021-11-22 12:00"]);
-  const [x2, setX2] = useState(["x2", "2021-11-11 18:10", "2021-11-11 20:23", "2021-11-12 17:11", "2021-11-22 12:00"]);
-  const [viewData, setViewData] = useState(["조회수", 12, 22 ,7, 8, 4]);
-  const [dibsData, setDibsData] = useState(["찜 횟수", 2, 2, 2, 1]);
   const view = state.view;
   const dibs = state.dibs;
   const timeViewData = ViewDatatoTime(view);
@@ -184,114 +173,126 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
   const timeDibsData = DibsDatatoTime(dibs);
   const dayDibsData = DibsDatatoDay(dibs);
   const monthDibsData = DibsDatatoMonth(dibs);
+  const [option, setOption] = useState("1");
 
+  useEffect(() => {
+    if (option === "1") {
+      var chart = bb.generate({
+        "data": {
+          "type": line(),
+          "xs": {
+            "조회수": "x1",
+            "찜 횟수": "x2",
+          },
+          "xFormat":"%Y-%m-%d %H:%M",
+          "columns": [
+            timeViewData[0], timeViewData[1], timeDibsData[0], timeDibsData[1]
+          ]
+        },
+        "axis": {
+          "x": {
+            "type": "timeseries",
+            "tick": {
+              "format": "%Y-%m-%d %H:%M",
+              "multiline": true
+            }
+          }
+        },
+        "bindto": "#chart",
+        "padding": {
+          "top": 20,
+          "bottom": 20,
+          "left": 100,
+          "right": 100
+        },
+        "zoom": {
+          "enabled": zoom()
+        }
+      });
+    }
+    if (option === "2") {
+      var chart = bb.generate({
+        "data": {
+          "type": line(),
+          "xs": {
+            "조회수": "x1",
+            "찜 횟수": "x2",
+          },
+          "xFormat":"%Y-%m-%d",
+          "columns": [
+            dayViewData[0], dayViewData[1], dayDibsData[0], dayDibsData[1]
+          ]
+        },
+        "axis": {
+          "x": {
+            "type": "timeseries",
+            "tick": {
+              "format": "%Y-%m-%d",
+              "multiline": true
+            }
+          }
+        },
+        "bindto": "#chart",
+        "padding": {
+          "top": 20,
+          "bottom": 20,
+          "left": 100,
+          "right": 100
+        },
+        "zoom": {
+          "enabled": zoom()
+        }
+      });
+    }
+    if (option === "3") {
+      var chart = bb.generate({
+        "data": {
+          "type": line(),
+          "xs": {
+            "조회수": "x1",
+            "찜 횟수": "x2",
+          },
+          "xFormat":"%Y-%m",
+          "columns": [
+            monthViewData[0], monthViewData[1], monthDibsData[0], monthDibsData[1]
+          ]
+        },
+        "axis": {
+          "x": {
+            "type": "timeseries",
+            "tick": {
+              "format": "%Y-%m",
+              "multiline": true
+            }
+          }
+        },
+        "bindto": "#chart",
+        "padding": {
+          "top": 20,
+          "bottom": 20,
+          "left": 100,
+          "right": 100
+        },
+        "zoom": {
+          "enabled": zoom()
+        }
+      });
+    }
+    
+    
+  }, [option]);
 
   const handleInputChange = (value: string) => {
     setOption(value);
-    setX1([]);
-    setX2([]);
-    setViewData([]);
-    setDibsData([]);
-    if (value == "1") {
-      setFormat("%Y-%m-%d %H:%M");
-      for (const ele of timeViewData[0]) {
-        setX1(x1.concat(ele));
-      }
-      for (const ele of timeViewData[1]) {
-        setX2(x2.concat(ele));
-      }
-      for (const ele of timeDibsData[0]) {
-        setViewData(viewData.concat(ele));
-      }
-      for (const ele of timeDibsData[1]) {
-        setDibsData(dibsData.concat(ele));
-      }
-    }
-    if (value == "2") {
-      setFormat("%Y-%m-%d");
-      for (const ele of dayViewData[0]) {
-        setX1(x1.concat(ele));
-      }
-      for (const ele of dayViewData[1]) {
-        setX2(x2.concat(ele));
-      }
-      for (const ele of dayDibsData[0]) {
-        setViewData(viewData.concat(ele));
-      }
-      for (const ele of dayDibsData[1]) {
-        setDibsData(dibsData.concat(ele));
-      }
-    }
-    if (value == "3") {
-      setFormat("%Y-%m");
-      for (const ele of monthViewData[0]) {
-        setX1(x1.concat(ele));
-      }
-      for (const ele of monthViewData[1]) {
-        setX2(x2.concat(ele));
-      }
-      for (const ele of monthDibsData[0]) {
-        setViewData(viewData.concat(ele));
-      }
-      for (const ele of monthDibsData[1]) {
-        setDibsData(dibsData.concat(ele));
-      }
-    }
-  };
-
-  var chart = bb.generate({
-    "data": {
-      "type": line(),
-      "xs": {
-        "조회수": "x1",
-        "찜 횟수": "x2",
-      },
-      "xFormat":format,
-      "columns": [
-        // ["x1", "2021-11-10 20:25", "2021-11-11 18:10", "2021-11-11 20:23", "2021-11-12 17:11", "2021-11-22 12:00"],
-        // ["x2", "2021-11-11 18:10", "2021-11-11 20:23", "2021-11-12 17:11", "2021-11-22 12:00"],
-        // ["조회수", 12, 22 ,7, 8, 4],
-        // ["찜 횟수", 2, 2, 2, 1]
-        x1, x2, viewData, dibsData
-      ]
-    },
-    "axis": {
-      "x": {
-        "type": "timeseries",
-        "tick": {
-          "format": format,
-          "multiline": true
-        }
-      }
-    },
-    "bindto": "#chart",
-    "padding": {
-      "top": 20,
-      "bottom": 20,
-      "left": 100,
-      "right": 100
-    },
-    "zoom": {
-      // for ESM import usage, import 'zoom' module and execute it as
-      "enabled": zoom()
-    },
-
-    // "color": {
-    //   "pattern": [
-    //     "red",
-    //     "blue",
-    //     "cyan"
-    //   ]
-    // }
-    
-  });
+  }
+  
 
   return (
     <div className="ChartPage">
       {state ? (
         <div>
           <div style={{paddingLeft:100, paddingRight:100}}>
-          <h1>{state.name} 상품의 trend chart</h1>
+            <h1>{state.name} 상품의 trend chart</h1>
             {/* <OptionList optionID={"1"} onClick={handleInputChange}></OptionList> */}
             <Radio.Group>
               <Radio value={1} name="range" onChange={e => handleInputChange("1")} checked={true}>일간</Radio>
