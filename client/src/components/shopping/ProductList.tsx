@@ -3,7 +3,6 @@ import { useParams, useLocation } from 'react-router-dom';
 import { getProductsFromMenu } from '../../lib/api/shopping';
 import Product, { ProductInfoProps } from './Product';
 import './ProductList.css';
-import { addUserDibs, deleteUserDibs, getAllDibs } from '../../lib/api/member';
 
 
 const ProductList = () => {

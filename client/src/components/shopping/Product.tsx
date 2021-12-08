@@ -43,7 +43,6 @@ export interface info {
 
 const Product = (props: info) => {
   const info = props.info;
-  const [dibsList, setDibsList] = useState<String[]>([]);
   const [isWishAdd, setIsWishAdd] = useState(false);
   const [AlreadyIn, setAlreadyIn] = useState(false);
   const [ButtonColor, setButtonColor] = useState(false);
@@ -68,7 +67,7 @@ const Product = (props: info) => {
         }
     }
     CheckProductDib();
-  },[dibsList]);
+  },[info._id]);
 
   const wishAddHandler = (e:any) => {
     setIsWishAdd(!isWishAdd);
