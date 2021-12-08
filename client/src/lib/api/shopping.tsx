@@ -34,8 +34,7 @@ export const getDibsofProduct = (productId: string) => {
   return client.get(`/api/products/dibs/${productId}`);
 };
 
-//현재시간을 data로 보내서 조회수를 증가시킨다.
-//찜기능은 어떻게?
+//현재시간을 data로 보내서 조회수를 증가시킵니다.
 export const viewPatchProduct = (productId: string) => {
   function fillZero(width: number, str: string) {
     return str.length >= width ? str : new Array(width-str.length+1).join('0') + str;
@@ -45,10 +44,28 @@ export const viewPatchProduct = (productId: string) => {
   const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
   const year = date_ob.getFullYear();
   const hours = fillZero(2, date_ob.getHours().toString());
-  const minutes = date_ob.getMinutes();
+  const minutes = fillZero(2, date_ob.getMinutes().toString());
   const time = year + "-" + month + "-" + date + " " + hours + ":" + minutes;
 
   return client.patch(`/api/products/${productId}`, {
     data: { time: time, type: 'view' },
+  });
+};
+
+//현재시간을 data로 보내서 찜 횟수를 증가시킵니다.
+export const dibsPatchProduct = (productId: string) => {
+  function fillZero(width: number, str: string) {
+    return str.length >= width ? str : new Array(width-str.length+1).join('0') + str;
+  }
+  const date_ob = new Date();
+  const date = ("0" + date_ob.getDate()).slice(-2);
+  const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  const year = date_ob.getFullYear();
+  const hours = fillZero(2, date_ob.getHours().toString());
+  const minutes = fillZero(2, date_ob.getMinutes().toString());
+  const time = year + "-" + month + "-" + date + " " + hours + ":" + minutes;
+
+  return client.patch(`/api/products/${productId}`, {
+    data: { time: time, type: 'dibs' },
   });
 };

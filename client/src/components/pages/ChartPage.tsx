@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Product, {ProductInfoProps} from '../shopping/Product';
-import OptionList from '../chart/OptionList';
 import WrongAccess from './WrongAccess';
 import bb, {area, bar, line, zoom} from "billboard.js";
 import { Radio } from 'antd';
 import "billboard.js/dist/billboard.css";
 import 'antd/dist/antd.css';
 
-
+// 문자열이 숫자인지 체크합니다.
 function isNumeric(data : string) : boolean {
   return !isNaN(Number(data));
 }
 
+// 조회수 데이터를 월간 형식에 맞게 변형합니다.
 function ViewDatatoMonth(data: Object) {
   var month : any = {};
   var monthArray = ["x1"];
@@ -38,6 +38,7 @@ function ViewDatatoMonth(data: Object) {
   return [monthArray, valueArray]
 }
 
+// 조회수 데이터를 주간 형식에 맞게 변형합니다.
 function ViewDatatoDay(data: Object) {
   var day : any = {};
   var dayArray = ["x1"];
@@ -65,6 +66,7 @@ function ViewDatatoDay(data: Object) {
   return [dayArray, valueArray]
 }
 
+// 조회수 데이터를 일간 형식에 맞게 변형합니다.
 function ViewDatatoTime(data: Object) {
   var time : any = {};
   var timeArray = ["x1"];
@@ -82,6 +84,7 @@ function ViewDatatoTime(data: Object) {
   return [timeArray, valueArray]
 }
 
+// 찜 횟수 데이터를 월간 형식에 맞게 변형합니다.
 function DibsDatatoMonth(data: Object) {
   var month : any = {};
   var monthArray = ["x2"];
@@ -111,6 +114,7 @@ function DibsDatatoMonth(data: Object) {
   return [monthArray, valueArray]
 }
 
+// 찜 횟수 데이터를 주간 형식에 맞게 변형합니다.
 function DibsDatatoDay(data: Object) {
   var day : any = {};
   var dayArray = ["x2"];
@@ -142,6 +146,7 @@ function DibsDatatoDay(data: Object) {
   return [dayArray, valueArray]
 }
 
+// 찜 횟수 데이터를 일간 형식에 맞게 변형합니다.
 function DibsDatatoTime(data: Object) {
   var time : any = {};
   var timeArray = ["x2"];
@@ -175,6 +180,7 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
   const monthDibsData = DibsDatatoMonth(dibs);
   const [option, setOption] = useState("1");
 
+  // Radiobutton의 값이 바뀔 때마다 차트의 데이터를 업데이트해줍니다.
   useEffect(() => {
     if (option === "1") {
       var chart = bb.generate({
@@ -293,7 +299,6 @@ const ChartPage = (props: RouteComponentProps<{}, {}, ProductInfoProps>) => {
         <div>
           <div style={{paddingLeft:100, paddingRight:100}}>
             <h1>{state.name} 상품의 trend chart</h1>
-            {/* <OptionList optionID={"1"} onClick={handleInputChange}></OptionList> */}
             <Radio.Group>
               <Radio value={1} name="range" onChange={e => handleInputChange("1")} checked={true}>일간</Radio>
               <Radio value={2} name="range" onChange={e => handleInputChange("2")}>주간</Radio>
