@@ -32,11 +32,14 @@ export const getProduct = (productId: string) => {
 //현재시간을 data로 보내서 조회수를 증가시킨다. YYYY-MM-DD HH:MM format
 //찜기능은 어떻게?
 export const viewPatchProduct = (productId: string) => {
+  function fillZero(width: number, str: string) {
+    return str.length >= width ? str : new Array(width-str.length+1).join('0') + str;
+  }
   const date_ob = new Date();
   const date = ("0" + date_ob.getDate()).slice(-2);
   const month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
   const year = date_ob.getFullYear();
-  const hours = date_ob.getHours();
+  const hours = fillZero(2, date_ob.getHours().toString());
   const minutes = date_ob.getMinutes();
   const time = year + "-" + month + "-" + date + " " + hours + ":" + minutes;
 
@@ -44,9 +47,3 @@ export const viewPatchProduct = (productId: string) => {
     data: { time: time, type: 'view' },
   });
 };
-
-
-//차트페이지에서 상품의 시간별 조회 정보를 가져옵니다.
-
-
-//차트페이지에서 상품의 시간별 찜 정보를 가져옵니다.
