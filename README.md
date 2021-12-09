@@ -23,6 +23,7 @@ $ npm run start
 ```
 ## 클라이언트 실행방법
 ```bash
+$ cd client
 $ npm install
 $ yarn start
 ```
