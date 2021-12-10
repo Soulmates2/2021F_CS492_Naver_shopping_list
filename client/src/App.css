@@ -1,0 +1,24 @@
+.App {
+  text-align: center;
+}
+
+.header-title {
+  font-weight: bold;
+  text-decoration: none;
+  background-color: #2db400;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.channel {
+  color: #2db400;
+}
+
+.channel:hover {
+  font-weight: bold;
+  transition: 0.1s;
+}
